@@ -24,6 +24,7 @@ class Wire {
     
     ofVec2f start, end;
     
+    bool shootSignal;
     float signalPos;
     
 public:
@@ -42,8 +43,13 @@ public:
     
     void setSource(ofVec2f s);
     void setTarget(ofVec2f t);
+    
+    void moveElectricity();
 
     void draw();
+    
+private:
+    float getPathLength();
 };
 
 

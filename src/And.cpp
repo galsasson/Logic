@@ -9,11 +9,16 @@
 #include "State.h"
 #include "And.h"
 #include "Wire.h"
+#include "ColorScheme.h"
 
 And::And(ofVec2f p, int pNum)
 {
     pos = p;
     portsNum = pNum;
+    
+    size = ofVec2f(25, 25);
+    font.loadFont("Rationale-Regular.ttf", 25);
+    font.setLineHeight(size.y);
     
     me = AND;
 }
@@ -27,24 +32,24 @@ bool And::connectToInputs(vector<Wire*> wires, GatePortType type)
     {
         if (type == GATEPORT_INPUTTOP)
         {
-            float x = -(portsNum+2)*GATE_SQUARE_SIZE/2 + GATE_SQUARE_SIZE/2 + i*GATE_SQUARE_SIZE;
-            float y = -(portsNum+1)*GATE_SQUARE_SIZE/2 - 18;
+            float x = -(portsNum+2)*size.x/2 + size.x/2 + i*size.x;
+            float y = -(portsNum+1)*size.y/2 - 10;
             GatePort *gp = new GatePort(this, ofVec2f(x, y), type);
             gp->connect(wires[i]);
             inputsTop.push_back(gp);
         }
         else if (type == GATEPORT_INPUTLEFT)
         {
-            float x = -(portsNum+2)*GATE_SQUARE_SIZE/2 - 18;
-            float y = -(portsNum+1)*GATE_SQUARE_SIZE/2 + GATE_SQUARE_SIZE/2 + i*GATE_SQUARE_SIZE;
+            float x = -(portsNum+2)*size.x/2 - 10;
+            float y = -(portsNum+1)*size.y/2 + size.y/2 + i*size.y;
             GatePort *gp = new GatePort(this, ofVec2f(x, y), type);
             gp->connect(wires[i]);
             inputsLeft.push_back(gp);
         }
         else if (type == GATEPORT_INPUTRIGHT)
         {
-            float x = (portsNum+2)*GATE_SQUARE_SIZE/2 + 18;
-            float y = -(portsNum+1)*GATE_SQUARE_SIZE/2 + GATE_SQUARE_SIZE/2 + i*GATE_SQUARE_SIZE;
+            float x = (portsNum+2)*size.x/2 + 15;
+            float y = -(portsNum+1)*size.y/2 + size.y/2 + i*size.y;
             GatePort *gp = new GatePort(this, ofVec2f(x, y), type);
             gp->connect(wires[i]);
             inputsRight.push_back(gp);
@@ -63,8 +68,8 @@ bool And::connectToOutputs(vector<Wire*> wires)
     
     for (int i=0; i<portsNum; i++)
     {
-        float x = (portsNum)*GATE_SQUARE_SIZE/2 - GATE_SQUARE_SIZE/2 - i*GATE_SQUARE_SIZE;
-        float y = (portsNum+1)*GATE_SQUARE_SIZE/2 + 18;
+        float x = (portsNum)*size.x/2 - size.x/2 - i*size.x;
+        float y = (portsNum+1)*size.y/2 + 15;
         GatePort *gp = new GatePort(this, ofVec2f(x, y), GATEPORT_OUTPUT);
         gp->connect(wires[i]);
         gps.push_back(gp);
@@ -103,7 +108,7 @@ void And::setState(GatePort *gp, EState s)
 {
     for (int i=0; i<portsNum; i++)
     {
-        if (gp == inputsLeft[i])
+        if (gp == inputsLeft[i] && inputsRight[i]->getState() != FLOATING)
         {
             if (s == HIGH && inputsRight[i]->getState() == HIGH)
             {
@@ -119,7 +124,7 @@ void And::setState(GatePort *gp, EState s)
                 }
             }
         }
-        else if (gp == inputsRight[i])
+        else if (gp == inputsRight[i] && inputsLeft[i]->getState() != FLOATING)
         {
             if (s == HIGH && inputsLeft[i]->getState() == HIGH)
             {
@@ -161,11 +166,46 @@ void And::draw()
     ofPushMatrix();
     ofTranslate(pos);
     
-    ofVec2f size = ofVec2f((portsNum+2)*GATE_SQUARE_SIZE, (portsNum+1)*GATE_SQUARE_SIZE);
-    ofSetColor(10, 10, 30);
+    ofVec2f totalSize = ofVec2f((portsNum+2)*size.x, (portsNum+1)*size.y);
+    ofSetColor(0, 0, 0, 100);
     ofFill();
-    ofRect(-size.x/2, -size.y/2, size.x, size.y);
+    ofRect(-totalSize.x/2+10, -totalSize.y/2+10, totalSize.x, totalSize.y);
+    ofSetColor(40);
+    ofRect(-totalSize.x/2, -totalSize.y/2, totalSize.x, totalSize.y-size.y);
+    ofSetColor(30);
+    ofRect(-totalSize.x/2, -size.y/2 + portsNum*size.y/2, totalSize.x, size.y);
+
     
+    /* draw colored squares inside the gate that respresent the ports status */
+    float x = -(portsNum+2)*size.x/2 + 4;
+    float y = -(portsNum+1)*size.y/2 + 4;
+    for (int i=0; i<portsNum; i++)
+    {
+        // draw left input
+        if (inputsLeft[i]->getState() == HIGH)
+            ofSetColor(ColorScheme::getColor(i));
+        else
+            ofSetColor(ColorScheme::getColor(i)*0.3);
+        ofRect(x, y, size.x-8, size.y-8);
+        
+        // draw right input
+        if (inputsRight[i]->getState() == HIGH)
+            ofSetColor(ColorScheme::getColor(i));
+        else
+            ofSetColor(ColorScheme::getColor(i)*0.3);
+        ofRect(-x, y, -(size.x-8), size.y-8);
+
+        // draw outputs
+        if (outputs[0][i]->getState() == HIGH)
+            ofSetColor(ColorScheme::getColor(i));
+        else
+            ofSetColor(ColorScheme::getColor(i)*0.3);
+        ofRect(portsNum*size.x/2 - (i+1)*size.x+4, portsNum*size.y/2-8, size.x-8, size.y-8);
+
+        y += size.y;
+    }
+    
+    /* draw the ports of the gate */
     for (int i=0; i<portsNum; i++)
     {
         inputsLeft[i]->draw();
@@ -179,6 +219,11 @@ void And::draw()
             outputs[i][j]->draw();
         }
     }
+    
+    // write test on the gate
+    ofSetColor(180);
+    ofRectangle rect = font.getStringBoundingBox("AND", 0, 0);
+    font.drawString("AND", -rect.width/2, 0);
 
     ofPopMatrix();
 }

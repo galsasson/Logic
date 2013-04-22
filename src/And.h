@@ -12,6 +12,8 @@
 
 class And : public Gate
 {
+    ofVec2f size;
+    ofTrueTypeFont font;
     
 public:
     

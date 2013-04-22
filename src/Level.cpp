@@ -13,6 +13,9 @@
 #include "Gate.h"
 #include "Wire.h"
 #include "And.h"
+#include "Or.h"
+#include "Not.h"
+#include "ColorScheme.h"
 
 Level::Level()
 {
@@ -23,24 +26,35 @@ Level::Level()
     
     vector<EState> s2;
     s2.push_back(HIGH);
+    s2.push_back(HIGH);
     s2.push_back(LOW);
-    s2.push_back(LOW);
+    
+    Source *src1 = new Source(ofVec2f(160, 40), s1);
+    Source *src2 = new Source(ofVec2f(480, 40), s2);
+    And *and1 = new And(ofVec2f(500, 250), 3);
+    Not *not1 = new Not(ofVec2f(480, 420), 3);
+    Or *or1 = new Or(ofVec2f(150, 400), 3);
+    And *and2 = new And(ofVec2f(320, 550), 3);
+    
     
     result = new Result(ofVec2f(320, 850), 3);
 
-    gates.push_back(new Source(ofVec2f(160, 50), s1));
-    gates.push_back(new Source(ofVec2f(480, 50), s2));
-    gates.push_back(new And(ofVec2f(320, 500), 3));
+    gates.push_back(src1);
+    gates.push_back(src2);
+    gates.push_back(and1);
+    gates.push_back(not1);
+    gates.push_back(or1);
+    gates.push_back(and2);
     gates.push_back(result);
     
-    // connect source 1 with gate
-    connect(gates[0], gates[2], GATEPORT_INPUTLEFT);
-    
-    // connect source 2 with gate
-    connect(gates[1], gates[2], GATEPORT_INPUTRIGHT);
-    
-    // connect gate with result
-    connect(gates[2], result, GATEPORT_INPUTTOP);
+    connect(src1, and1, GATEPORT_INPUTLEFT);
+    connect(src2, and1, GATEPORT_INPUTRIGHT);
+    connect(and1, not1, GATEPORT_INPUTTOP);
+    connect(not1, and2, GATEPORT_INPUTRIGHT);
+    connect(src1, or1, GATEPORT_INPUTLEFT);
+    connect(src2, or1, GATEPORT_INPUTRIGHT);
+    connect(or1, and2, GATEPORT_INPUTLEFT);
+    connect(and2, result, GATEPORT_INPUTTOP);
     
     vector<EState> res = result->getResult();
     for (int i=0; i<res.size(); i++)
@@ -58,28 +72,28 @@ void Level::loadResources()
 
 void Level::draw()
 {
-    background.draw(0, 0);
-    
-    for (int i=0 ; i<gates.size(); i++)
-    {
-        gates[i]->draw();
-    }
+//    ofSetColor(200);
+//    background.draw(0, 0);
+    ofBackground(ColorScheme::getColor(4)*0.15);
     
     for (int i=0 ; i<wires.size(); i++)
     {
         wires[i]->draw();
     }
 
+    for (int i=0 ; i<gates.size(); i++)
+    {
+        gates[i]->draw();
+    }
+
 }
 
 void Level::update()
 {
-    for (int i=0 ; i<gates.size(); i++)
+    for (int i=0; i<wires.size(); i++)
     {
-        gates[i]->update();
+        wires[i]->moveElectricity();
     }
-    
-//    result->suck();
 }
 
 

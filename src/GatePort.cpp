@@ -9,6 +9,7 @@
 #include "GatePort.h"
 #include "Wire.h"
 #include "Gate.h"
+#include "ColorScheme.h"
 
 GatePort::GatePort(Gate *parent, ofVec2f p, GatePortType t)
 {
@@ -82,16 +83,17 @@ void GatePort::draw()
     ofTranslate(pos);
     
     if (state == HIGH) {
-        ofSetColor(180, 180, 235);
+        ofSetColor(ColorScheme::getWireOn());
         ofFill();
+        ofEllipse(0, 0, 12, 12);
     }
     else {
-        ofSetColor(17, 103, 138);
-        ofNoFill();
+        ofSetColor(ColorScheme::getWireOff());
     }
     
+    ofNoFill();
     ofSetLineWidth(2);
-    ofEllipse(0, 0, 13, 13);
+    ofEllipse(0, 0, 12, 12);
     
     ofPopMatrix();
 }

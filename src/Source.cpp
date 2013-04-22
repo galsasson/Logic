@@ -8,18 +8,22 @@
 
 #include "Wire.h"
 #include "Source.h"
+#include "ColorScheme.h"
 
 Source::Source(ofVec2f p, vector<EState> bits)
 {
     pos = p;
     electricity = bits;
+    portsNum = bits.size();
     
     me = SOURCE;
     
     sendCounter = 0;
     sendSignal = false;
     
-    portsNum = bits.size();
+    size = ofVec2f(30, 70);
+    
+    font.loadFont("Rationale-Regular.ttf", 30);
 }
 
 bool Source::connectToOutputs(vector<Wire*> wires)
@@ -31,8 +35,8 @@ bool Source::connectToOutputs(vector<Wire*> wires)
     
     for (int i=0; i<portsNum; i++)
     {
-        float x = (portsNum)*GATE_SQUARE_SIZE/2 - GATE_SQUARE_SIZE/2 - i*GATE_SQUARE_SIZE;
-        float y = GATE_SQUARE_SIZE/2 + 18;
+        float x = (portsNum)*size.x/2 - size.x/2 - i*size.x;
+        float y = GATE_SQUARE_SIZE/2 + 35;
         GatePort *gp = new GatePort(this, ofVec2f(x, y), GATEPORT_OUTPUT);
         gp->connect(wires[i]);
         gps.push_back(gp);
@@ -70,16 +74,7 @@ void Source::draw()
     ofPushMatrix();
     ofTranslate(pos);
 
-    ofNoFill();
-    ofSetColor(255);
-    ofSetLineWidth(2);
-    
-    float totalWidth = GATE_SQUARE_SIZE*portsNum;
-    for (int i=0; i<portsNum; i++)
-    {
-        ofRect(-totalWidth/2 + i*GATE_SQUARE_SIZE, -GATE_SQUARE_SIZE/2, GATE_SQUARE_SIZE, GATE_SQUARE_SIZE);
-    }
-    
+    // draw the ports first
     for (int i=0; i<outputs.size(); i++)
     {
         for (int j=0; j<portsNum; j++)
@@ -88,6 +83,38 @@ void Source::draw()
         }
     }
 
+    ofFill();
+    ofSetColor(0, 0, 0, 100);
+    ofRect(-size.x*portsNum/2+10, -size.y/2+10, size.x*portsNum, size.y);
+    ofSetColor(40);
+    ofRect(-size.x*portsNum/2, -size.y/2, size.x*portsNum, size.y);
+    ofSetColor(30);
+    ofRect(-size.x*portsNum/2, size.y/2-30, size.x*portsNum, 30);
+    
+    ofSetColor(180);
+    float totalWidth = size.x*portsNum;
+    for (int i=0; i<portsNum; i++)
+    {
+        if (electricity[portsNum-1-i] == HIGH)
+            font.drawString("1", -totalWidth/2 + size.x/2 + i*size.x-5, size.y/2-35);
+        else
+            font.drawString("0", -totalWidth/2 + size.x/2 + i*size.x-9, size.y/2-35);
+    }
+    
+    // draw the colored square of the outputs
+    float x=-totalWidth/2+4;
+    float y=size.y/2-26;
+    for (int i=portsNum-1; i>=0; i--)
+    {
+        if (outputs[0][i]->getState() == HIGH)
+            ofSetColor(ColorScheme::getColor(i));
+        else
+            ofSetColor(ColorScheme::getColor(i)*0.3);
+        ofRect(x, y, size.x-8, 22);
+        
+        x+=size.x;
+    }
+    
     
     ofPopMatrix();
 }

@@ -14,7 +14,6 @@
 		2A3E6754172314D100B5E0E4 /* Builder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E673E172314D000B5E0E4 /* Builder.cpp */; };
 		2A3E6756172314D100B5E0E4 /* Gate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E6742172314D000B5E0E4 /* Gate.cpp */; };
 		2A3E6757172314D100B5E0E4 /* Level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E6744172314D000B5E0E4 /* Level.cpp */; };
-		2A3E6758172314D100B5E0E4 /* Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E6746172314D100B5E0E4 /* Line.cpp */; };
 		2A3E6759172314D100B5E0E4 /* Not.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E6748172314D100B5E0E4 /* Not.cpp */; };
 		2A3E675A172314D100B5E0E4 /* Or.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E674A172314D100B5E0E4 /* Or.cpp */; };
 		2A3E675B172314D100B5E0E4 /* Result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E674C172314D100B5E0E4 /* Result.cpp */; };
@@ -22,6 +21,8 @@
 		2A3E675D172314D100B5E0E4 /* Wire.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E6751172314D100B5E0E4 /* Wire.cpp */; };
 		2A3E676017233D7400B5E0E4 /* level_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A3E675F17233D7400B5E0E4 /* level_background.jpg */; };
 		2A3E676317234A8C00B5E0E4 /* GatePort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E676117234A8B00B5E0E4 /* GatePort.cpp */; };
+		2A85836F172475DF0040E909 /* Rationale-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A85836E172475DF0040E909 /* Rationale-Regular.ttf */; };
+		2A8583731724F1B50040E909 /* ColorScheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A8583711724F1B50040E909 /* ColorScheme.cpp */; };
 		5326AEA810A23A0500278DE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5326AEA710A23A0500278DE6 /* CoreLocation.framework */; };
 		53F323EB10A20EDB00E0DAE4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */; };
 		BB16EBD20F2B2A9500518274 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD10F2B2A9500518274 /* OpenGLES.framework */; };
@@ -70,8 +71,6 @@
 		2A3E6743172314D000B5E0E4 /* Gate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gate.h; sourceTree = "<group>"; };
 		2A3E6744172314D000B5E0E4 /* Level.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Level.cpp; sourceTree = "<group>"; };
 		2A3E6745172314D100B5E0E4 /* Level.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Level.h; sourceTree = "<group>"; };
-		2A3E6746172314D100B5E0E4 /* Line.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Line.cpp; sourceTree = "<group>"; };
-		2A3E6747172314D100B5E0E4 /* Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line.h; sourceTree = "<group>"; };
 		2A3E6748172314D100B5E0E4 /* Not.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Not.cpp; sourceTree = "<group>"; };
 		2A3E6749172314D100B5E0E4 /* Not.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Not.h; sourceTree = "<group>"; };
 		2A3E674A172314D100B5E0E4 /* Or.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Or.cpp; sourceTree = "<group>"; };
@@ -86,6 +85,9 @@
 		2A3E675F17233D7400B5E0E4 /* level_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = level_background.jpg; path = resources/level_background.jpg; sourceTree = "<group>"; };
 		2A3E676117234A8B00B5E0E4 /* GatePort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GatePort.cpp; sourceTree = "<group>"; };
 		2A3E676217234A8B00B5E0E4 /* GatePort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GatePort.h; sourceTree = "<group>"; };
+		2A85836E172475DF0040E909 /* Rationale-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Rationale-Regular.ttf"; path = "resources/Rationale-Regular.ttf"; sourceTree = "<group>"; };
+		2A8583711724F1B50040E909 /* ColorScheme.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ColorScheme.cpp; sourceTree = "<group>"; };
+		2A8583721724F1B50040E909 /* ColorScheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorScheme.h; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* iPhone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhone_Prefix.pch; sourceTree = "<group>"; };
 		5326AEA710A23A0500278DE6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -175,6 +177,7 @@
 		2A3E675E17233D4D00B5E0E4 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				2A85836E172475DF0040E909 /* Rationale-Regular.ttf */,
 				2A3E675F17233D7400B5E0E4 /* level_background.jpg */,
 			);
 			name = resources;
@@ -236,8 +239,6 @@
 				2A3E676217234A8B00B5E0E4 /* GatePort.h */,
 				2A3E6744172314D000B5E0E4 /* Level.cpp */,
 				2A3E6745172314D100B5E0E4 /* Level.h */,
-				2A3E6746172314D100B5E0E4 /* Line.cpp */,
-				2A3E6747172314D100B5E0E4 /* Line.h */,
 				E4D8936B11527B74007E1F53 /* main.mm */,
 				2A3E6748172314D100B5E0E4 /* Not.cpp */,
 				2A3E6749172314D100B5E0E4 /* Not.h */,
@@ -252,6 +253,8 @@
 				E4D8936D11527B74007E1F53 /* testApp.mm */,
 				2A3E6751172314D100B5E0E4 /* Wire.cpp */,
 				2A3E6752172314D100B5E0E4 /* Wire.h */,
+				2A8583711724F1B50040E909 /* ColorScheme.cpp */,
+				2A8583721724F1B50040E909 /* ColorScheme.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -327,6 +330,7 @@
 				E41D3ED713B38FB500A75A5D /* Project.xcconfig in Resources */,
 				E41D3EE613B3906D00A75A5D /* CoreOF.xcconfig in Resources */,
 				2A3E676017233D7400B5E0E4 /* level_background.jpg in Resources */,
+				2A85836F172475DF0040E909 /* Rationale-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,13 +363,13 @@
 				2A3E6754172314D100B5E0E4 /* Builder.cpp in Sources */,
 				2A3E6756172314D100B5E0E4 /* Gate.cpp in Sources */,
 				2A3E6757172314D100B5E0E4 /* Level.cpp in Sources */,
-				2A3E6758172314D100B5E0E4 /* Line.cpp in Sources */,
 				2A3E6759172314D100B5E0E4 /* Not.cpp in Sources */,
 				2A3E675A172314D100B5E0E4 /* Or.cpp in Sources */,
 				2A3E675B172314D100B5E0E4 /* Result.cpp in Sources */,
 				2A3E675C172314D100B5E0E4 /* Source.cpp in Sources */,
 				2A3E675D172314D100B5E0E4 /* Wire.cpp in Sources */,
 				2A3E676317234A8C00B5E0E4 /* GatePort.cpp in Sources */,
+				2A8583731724F1B50040E909 /* ColorScheme.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

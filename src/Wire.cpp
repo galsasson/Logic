@@ -9,6 +9,7 @@
 #include "Wire.h"
 #include "Gate.h"
 #include "GatePort.h"
+#include "ColorScheme.h"
 
 #define POINTS_NUM  100
 
@@ -17,8 +18,8 @@ Wire::Wire()
     input = NULL;
     output = NULL;
     
-//    start = ofVec2f(0, 0);
-//    end = ofVec2f(0, 0);
+    shootSignal = false;
+    signalPos = 0;
 }
 
 Wire::~Wire()
@@ -65,7 +66,7 @@ void Wire::setState(EState s)
     state = s;
 
     // trigger the signal. the signal will start to move now.
-    signalPos = 5;
+    shootSignal = true;
 }
 
 void Wire::reset()
@@ -73,57 +74,98 @@ void Wire::reset()
     state = FLOATING;
     
     signalPos = 0;
+    shootSignal = false;
 }
 
 void Wire::setSource(ofVec2f source)
 {
-    start = source;
+    points.push_back(source);
+//    start = source;
 }
 
 void Wire::setTarget(ofVec2f target)
 {
-    end = target;
+    points.push_back(target);
+//    points.push_back(target - ofVec2f(-50, 0));
+//    points[1] = target;
+//    end = target;
+}
+
+void Wire::moveElectricity()
+{
+    if (shootSignal)
+    {
+        signalPos+=4;
+        if (signalPos > getPathLength())
+        {
+            output->setState(state);
+            signalPos = getPathLength();
+            shootSignal = false;
+        }
+    }
+    
 }
 
 void Wire::draw()
 {
-    ofVec2f vec = end-start;
-    float length = vec.length();
     
-    ofPushMatrix();
-    ofTranslate(start);
-    ofRotate(ofRadToDeg(atan2(vec.y, vec.x)));
-
-    ofSetColor(17, 103, 138);
-    ofSetLineWidth(2);
-    ofLine(0, 0, length, 0);
-    
-    if (signalPos > 0 && signalPos <= length)
+    float lengthPassed = 0;
+    // for every line in the wire path (points)
+    for (int i=1; i<points.size(); i++)
     {
+        ofPushMatrix();
+        ofVec2f vec = points[i]-points[i-1];
+        float length = vec.length();
+        ofTranslate(points[i-1]);
+        ofRotate(ofRadToDeg(atan2(vec.y, vec.x)));
+
+        // draw the line off
+        ofSetColor(ColorScheme::getWireOff());
+        ofSetLineWidth(3);
+        ofLine(0, 0, length, 0);
+    
+        // draw the wire on
         if (state == HIGH)
         {
-            ofSetColor(150, 150, 205);
-            ofLine(0, 0, signalPos, 0);
-            ofSetColor(255, 255, 255);
-            ofLine(signalPos-5, 0, signalPos, 0);
-        }
-        if (signalPos < length)
-        {
-            signalPos += 4;
-            if (signalPos == length)
+            if (signalPos >= lengthPassed + length)
             {
-                output->setState(state);
-                signalPos = length;
+                // draw the entire wire on
+                ofSetColor(ColorScheme::getWireOn());
+                ofLine(0, 0, length, 0);
+            }
+            else if (signalPos > lengthPassed)
+            {
+                // draw wire on until reminder
+                float reminder = signalPos - lengthPassed;
+                ofSetColor(ColorScheme::getWireOn());
+                ofLine(0, 0, reminder, 0);
+                
+                // draw the glowing tip
+                if (shootSignal)
+                {
+                    ofSetLineWidth(2);
+                    ofSetColor(255, 255, 255);
+                    ofLine(reminder-10, 0, reminder, 0);
+                }
             }
         }
         
-        if (signalPos > length)
-        {
-            output->setState(state);
-            signalPos = length;
-        }
+        lengthPassed += length;
+        ofPopMatrix();
+        
     }
     
-    ofPopMatrix();
+}
+
+float Wire::getPathLength()
+{
+    float length = 0;
+    
+    for (int i=1; i<points.size(); i++)
+    {
+        length += (points[i] - points[i-1]).length();
+    }
+    
+    return length;
 }
 

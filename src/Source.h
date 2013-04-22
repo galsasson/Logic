@@ -19,6 +19,9 @@ class Source : public Gate {
     
     vector<EState> electricity;
     
+    ofVec2f size;
+    ofTrueTypeFont font;
+    
     int sendCounter;
     bool sendSignal;
     

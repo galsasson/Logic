@@ -11,7 +11,8 @@ void testApp::setup(){
     level = new Level();
     
     ofEnableSmoothing();
-    ofSetFrameRate(60);
+    ofEnableAlphaBlending();
+    ofSetFrameRate(30);
 	ofBackground(127,127,127);
 }
 

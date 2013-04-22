@@ -14,12 +14,20 @@ class Wire;
 
 class Not : public Gate {
     
+    ofVec2f size;
+    ofTrueTypeFont font;
+    
 public:
     
-    Not();
+    Not(ofVec2f p, int pNum);
     ~Not();
     
-    vector<EState> getGateElectricity();
-//    void processElectricity();
+    virtual bool connectToInputs(vector<Wire*> wires, GatePortType type);
+    virtual bool connectToOutputs(vector<Wire*> wires);
     
+    EState getStateImmediately(GatePort *gp);
+    void setState(GatePort *gp, EState s);
+    void reset();
+    
+    void draw();
 };

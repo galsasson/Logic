@@ -75,11 +75,13 @@ void Result::draw()
 
     ofPushMatrix();
     ofTranslate(pos);
+    
+    ofFill();
     if(resultSet){
-    ofSetColor(0, 255, 0);
+        ofSetColor(40);
     }
     else{
-        ofSetColor(255, 0, 0);
+        ofSetColor(30);
     }
     
     ofRect(-RESULT_WIDTH/2, -RESULT_HEIGHT/2, RESULT_WIDTH, RESULT_HEIGHT);
