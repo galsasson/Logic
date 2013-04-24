@@ -14,15 +14,24 @@
 #include "Gate.h"
 #include "Wire.h"
 #include "Result.h"
+#include "Inventory.h"
 
 class Level
 {
     vector<Gate*> gates;
     vector<Wire*> wires;
-    
     Result* result;
     
+    Inventory *inventory;
+    
     ofImage background;
+    
+    Gate *currentGate;
+    
+    Gate *conGate1;
+    GatePortType conType1;
+    Gate *conGate2;
+    GatePortType conType2;
     
 public:
     Level();
@@ -39,6 +48,9 @@ public:
     
 private:
     void connect(Gate* g1, Gate* g2, GatePortType to);
+    void disconnectWires(vector<Wire*> toRemove);
+    
+    void releaseHoldPads();
 };
 
 #endif /* defined(__Logic__Level__) */

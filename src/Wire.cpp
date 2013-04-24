@@ -20,6 +20,9 @@ Wire::Wire()
     
     shootSignal = false;
     signalPos = 0;
+    
+    points.push_back(ofVec2f(0,0));
+    points.push_back(ofVec2f(0,0));
 }
 
 Wire::~Wire()
@@ -79,23 +82,19 @@ void Wire::reset()
 
 void Wire::setSource(ofVec2f source)
 {
-    points.push_back(source);
-//    start = source;
+    points[0] = source;
 }
 
 void Wire::setTarget(ofVec2f target)
 {
-    points.push_back(target);
-//    points.push_back(target - ofVec2f(-50, 0));
-//    points[1] = target;
-//    end = target;
+    points[1] = target;
 }
 
 void Wire::moveElectricity()
 {
     if (shootSignal)
     {
-        signalPos+=4;
+        signalPos+=20;
         if (signalPos > getPathLength())
         {
             output->setState(state);

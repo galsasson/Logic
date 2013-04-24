@@ -17,6 +17,8 @@ GatePort::GatePort(Gate *parent, ofVec2f p, GatePortType t)
     pos = p;
     type = t;
     state = FLOATING;
+    
+    wire = NULL;
 }
 
 void GatePort::connect(Wire *w)
@@ -31,6 +33,19 @@ void GatePort::connect(Wire *w)
         wire->setInput(this);
     else
         wire->setOutput(this);
+}
+
+void GatePort::reconnect()
+{
+    if (wire)
+    {
+        connect(wire);
+    }
+}
+
+void GatePort::disconnect()
+{
+    wire = NULL;
 }
 
 EState GatePort::getStateImmediately()
@@ -59,7 +74,8 @@ void GatePort::setState(EState s)
     if (type == GATEPORT_OUTPUT)
     {
         // send the state down the wire
-        wire->setState(s);
+        if (wire != NULL)
+            wire->setState(s);
     }
     else {
         // update the gate about the new state

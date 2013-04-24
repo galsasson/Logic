@@ -22,17 +22,44 @@ Source::Source(ofVec2f p, vector<EState> bits)
     sendSignal = false;
     
     size = ofVec2f(30, 70);
-    
     font.loadFont("Rationale-Regular.ttf", 30);
+    
+    initPorts();
+    initPads();
+}
+
+void Source::initPorts()
+{
+    // init output ports
+    vector<GatePort*> gps;
+    for (int i=0; i<portsNum; i++)
+    {
+        float x = (portsNum)*size.x/2 - size.x/2 - i*size.x;
+        float y = GATE_SQUARE_SIZE/2 + 35;
+        GatePort *gp = new GatePort(this, ofVec2f(x, y), GATEPORT_OUTPUT);
+        gps.push_back(gp);
+    }
+    outputs.push_back(gps);
+}
+
+void Source::initPads()
+{
+    pads[0] = TouchPad(ofVec2f(0, size.y/2+50), 50);
 }
 
 bool Source::connectToOutputs(vector<Wire*> wires)
 {
     if (wires.size() != portsNum)
         return false;
-    
+
+    for (int i=0; i<portsNum; i++)
+    {
+        outputs[outputs.size()-1][i]->connect(wires[i]);
+    }
+    pads[0].connected = true;
+
+    // set up a clean output ports for next time
     vector<GatePort*> gps;
-    
     for (int i=0; i<portsNum; i++)
     {
         float x = (portsNum)*size.x/2 - size.x/2 - i*size.x;
@@ -41,10 +68,39 @@ bool Source::connectToOutputs(vector<Wire*> wires)
         gp->connect(wires[i]);
         gps.push_back(gp);
     }
-    
     outputs.push_back(gps);
     
     return true;
+}
+
+vector<Wire*> Source::getWires(GatePortType t)
+{
+    vector<Wire*> wires;
+    
+    if (t == GATEPORT_OUTPUT)
+    {
+        for (int j=0; j<outputs.size()-1; j++)
+        {
+            for (int i=0; i<portsNum; i++)
+            {
+                wires.push_back(outputs[j][i]->wire);
+            }
+        }
+    }
+    
+    return wires;
+}
+
+void Source::disconnectWires(GatePortType t)
+{
+    if (t == GATEPORT_OUTPUT)
+    {
+        while (outputs.size()>1)
+        {
+            outputs.erase(outputs.begin());
+        }
+        pads[0].connected = false;
+    }
 }
 
 EState Source::getStateImmediately(GatePort *gp)
@@ -69,6 +125,81 @@ vector<EState> Source::getGateElectricity()
     return electricity;
 }
 
+GatePortType Source::isTouchingPads(ofVec2f p)
+{
+    p-=pos;
+    if (pads[0].enabled && pads[0].contains(p))
+    {
+        pads[0].press();
+        return GATEPORT_OUTPUT;
+    }
+    
+    return GATEPORT_UNKNOWN;
+}
+
+void Source::hideAllPads()
+{
+    pads[0].setVisible(false, 0);
+}
+
+void Source::releaseAllPads()
+{
+    pads[0].release();
+}
+
+void Source::releasePad(GatePortType t)
+{
+    if (t == GATEPORT_OUTPUT)
+        pads[0].release();
+}
+
+void Source::holdPad(bool hold, GatePortType t)
+{
+    if (t == GATEPORT_OUTPUT)
+        pads[0].hold(hold);
+}
+
+bool Source::isPadConnected(GatePortType t)
+{
+    if (t == GATEPORT_OUTPUT)
+        return pads[0].connected;
+    
+    return false;
+}
+
+
+bool Source::contains(ofVec2f p)
+{
+    if (p.distance(pos)<50)
+        return true;
+    
+    return false;
+}
+
+void Source::pickUp()
+{
+//    picked = true;
+    
+    pads[0].setVisible(true, 0);
+}
+
+void Source::putDown()
+{
+//    picked = false;
+    
+    pads[0].setVisible(false, 40);
+}
+
+void Source::oscilateOutputPads(bool on)
+{
+    pads[0].oscilate(on);
+}
+
+void Source::update()
+{
+    pads[0].update();
+}
+
 void Source::draw()
 {
     ofPushMatrix();
@@ -86,12 +217,19 @@ void Source::draw()
     ofFill();
     ofSetColor(0, 0, 0, 100);
     ofRect(-size.x*portsNum/2+10, -size.y/2+10, size.x*portsNum, size.y);
-    ofSetColor(40);
+    ofSetColor(130);
     ofRect(-size.x*portsNum/2, -size.y/2, size.x*portsNum, size.y);
-    ofSetColor(30);
+    ofSetColor(80);
     ofRect(-size.x*portsNum/2, size.y/2-30, size.x*portsNum, 30);
-    
+    ofNoFill();
+    ofSetLineWidth(1);
+    ofSetColor(130);
+    ofRectRounded(-size.x*portsNum/2, -size.y/2, size.x*portsNum, size.y, 5);
+    ofSetColor(200);
+    ofRectRounded(-size.x*portsNum/2, -size.y/2, size.x*portsNum, size.y-30, 5);
+
     ofSetColor(180);
+    ofFill();
     float totalWidth = size.x*portsNum;
     for (int i=0; i<portsNum; i++)
     {
@@ -115,6 +253,7 @@ void Source::draw()
         x+=size.x;
     }
     
+    pads[0].draw();
     
     ofPopMatrix();
 }

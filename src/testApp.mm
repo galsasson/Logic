@@ -10,9 +10,10 @@ void testApp::setup(){
 	
     level = new Level();
     
-    ofEnableSmoothing();
+//    ofEnableSmoothing();
+
     ofEnableAlphaBlending();
-    ofSetFrameRate(30);
+    ofSetFrameRate(60);
 	ofBackground(127,127,127);
 }
 
@@ -24,7 +25,7 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
     // needed to support 320x480 screen (also for the simulator)
-    ofScale(0.5, 0.5);
+    //ofScale(0.5, 0.5);
     
 	level->draw();
 }

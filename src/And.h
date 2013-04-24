@@ -9,23 +9,50 @@
 #pragma once
 
 #include "Gate.h"
+#include "TouchPad.h"
 
 class And : public Gate
 {
-    ofVec2f size;
+    ofVec2f squareSize;
+    ofVec2f halfSquareSize;
     ofTrueTypeFont font;
     
+    ofVec2f halfTextSize;
+    
+    TouchPad pads[3];
+        
 public:
     
     And(ofVec2f p, int pNum);
     ~And();
     
-    virtual bool connectToInputs(vector<Wire*> wires, GatePortType type);
-    virtual bool connectToOutputs(vector<Wire*> wires);
-
+    void initPorts();
+    void initPads();
+    
+    bool connectToInputs(vector<Wire*> wires, GatePortType type);
+    bool connectToOutputs(vector<Wire*> wires);
+    vector<Wire*> getWires(GatePortType t);
+    void disconnectWires(GatePortType t);
+    
+    void setPosition(ofVec2f p);
+    
     EState getStateImmediately(GatePort *gp);
     void setState(GatePort *gp, EState s);
-    void reset();
     
+    GatePortType isTouchingPads(ofVec2f p);
+    void releaseAllPads();
+    void releasePad(GatePortType t);
+    void hideAllPads();
+    void holdPad(bool hold, GatePortType t);
+    bool isPadConnected(GatePortType t);
+    
+    bool contains(ofVec2f p);
+    void pickUp();
+    void putDown();
+    void oscilateInputPads(bool on);
+    void oscilateOutputPads(bool on);
+    
+    void reset();
+    void update();
     void draw();
 };

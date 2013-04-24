@@ -35,12 +35,17 @@ public:
     GatePort(Gate *parent, ofVec2f p, GatePortType t);
 
     void connect(Wire *w);
+    void reconnect();
+    void disconnect();
+    
     EState getState();
     void setState(EState s);
     EState getStateImmediately();
     void reset();
     
     ofVec2f getWorldPosition();
+    Gate* getParentGate() { return parent; }
+    
     void draw();
     
     Wire *wire;    

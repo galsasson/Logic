@@ -11,6 +11,8 @@
 #include "ofMain.h"
 #include "State.h"
 #include "GatePort.h"
+#include "TouchPad.h"
+
 #define DEBUG 
 
 #define STRIPWIDTH  25
@@ -29,6 +31,7 @@ protected:
     vector< vector<GatePort*> > outputs;
     
     ofVec2f pos;
+    bool picked;
     
     //this is to see what type of gate i am
     Gates me;
@@ -40,15 +43,35 @@ public:
 
     virtual bool connectToInputs(vector<Wire*> wires, GatePortType type);
     virtual bool connectToOutputs(vector<Wire*> wires);
+    virtual vector<Wire*> getWires(GatePortType t);
+    virtual void disconnectWires(GatePortType t) {}
     
     virtual EState getStateImmediately(GatePort *gp);
     virtual void setState(GatePort *gp, EState s);
-    virtual void reset();
     
-    virtual void update();
-    virtual void draw();
+    virtual bool topInputTouched(ofVec2f p);
+    virtual bool leftInputTouched(ofVec2f p);
+    virtual bool rightInputTouched(ofVec2f p);
+    virtual bool outputTouched(ofVec2f p);
+    virtual GatePortType isTouchingPads(ofVec2f p);
+    virtual void releaseAllPads() {}
+    virtual void releasePad(GatePortType t) {}
+    virtual void hideAllPads() {}
+    virtual void holdPad(bool hold, GatePortType t) {}
+    virtual bool isPadConnected(GatePortType t) { return false; }
+
+    virtual bool contains(ofVec2f p);
+    virtual void pickUp();
+    virtual void putDown();
+    virtual void oscilateInputPads(bool on);
+    virtual void oscilateOutputPads(bool on);
+    
+    virtual void reset() {}
+    virtual void update() {}
+    virtual void draw() {}
     
     ofVec2f getWorldPosition();
+    virtual void setPosition(ofVec2f p);
     
     virtual Gates getMe() { return me; };
     

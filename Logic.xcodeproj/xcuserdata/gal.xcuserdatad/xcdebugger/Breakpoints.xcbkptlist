@@ -8,24 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "src/Wire.cpp"
-         timestampString = "388299691.209362"
+         timestampString = "388436633.923895"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "172"
-         endingLineNumber = "172">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "src/Level.cpp"
-         timestampString = "388304068.074115"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "36"
-         endingLineNumber = "36"
-         landmarkName = "Level::Level()"
-         landmarkType = "5">
+         startingLineNumber = "171"
+         endingLineNumber = "171">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

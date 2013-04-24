@@ -19,15 +19,15 @@ class Wire {
     
     vector<ofVec2f> points;
     
-    GatePort* input;
-    GatePort* output;
-    
     ofVec2f start, end;
     
     bool shootSignal;
     float signalPos;
     
 public:
+    GatePort* input;
+    GatePort* output;
+    
 
     Wire();
     ~Wire();

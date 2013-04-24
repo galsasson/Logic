@@ -21,8 +21,11 @@
 		2A3E675D172314D100B5E0E4 /* Wire.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E6751172314D100B5E0E4 /* Wire.cpp */; };
 		2A3E676017233D7400B5E0E4 /* level_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A3E675F17233D7400B5E0E4 /* level_background.jpg */; };
 		2A3E676317234A8C00B5E0E4 /* GatePort.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3E676117234A8B00B5E0E4 /* GatePort.cpp */; };
+		2A3FA8AF1725BAA200787DFE /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3FA8AD1725BAA200787DFE /* Inventory.cpp */; };
+		2A3FA8B21725BD0300787DFE /* InventoryIcon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3FA8B01725BD0300787DFE /* InventoryIcon.cpp */; };
 		2A85836F172475DF0040E909 /* Rationale-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A85836E172475DF0040E909 /* Rationale-Regular.ttf */; };
 		2A8583731724F1B50040E909 /* ColorScheme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A8583711724F1B50040E909 /* ColorScheme.cpp */; };
+		2AFD35ED1726453A008FCBAA /* TouchPad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AFD35EB1726453A008FCBAA /* TouchPad.cpp */; };
 		5326AEA810A23A0500278DE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5326AEA710A23A0500278DE6 /* CoreLocation.framework */; };
 		53F323EB10A20EDB00E0DAE4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */; };
 		BB16EBD20F2B2A9500518274 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD10F2B2A9500518274 /* OpenGLES.framework */; };
@@ -85,9 +88,15 @@
 		2A3E675F17233D7400B5E0E4 /* level_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = level_background.jpg; path = resources/level_background.jpg; sourceTree = "<group>"; };
 		2A3E676117234A8B00B5E0E4 /* GatePort.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GatePort.cpp; sourceTree = "<group>"; };
 		2A3E676217234A8B00B5E0E4 /* GatePort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GatePort.h; sourceTree = "<group>"; };
+		2A3FA8AD1725BAA200787DFE /* Inventory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Inventory.cpp; sourceTree = "<group>"; };
+		2A3FA8AE1725BAA200787DFE /* Inventory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Inventory.h; sourceTree = "<group>"; };
+		2A3FA8B01725BD0300787DFE /* InventoryIcon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InventoryIcon.cpp; sourceTree = "<group>"; };
+		2A3FA8B11725BD0300787DFE /* InventoryIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryIcon.h; sourceTree = "<group>"; };
 		2A85836E172475DF0040E909 /* Rationale-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Rationale-Regular.ttf"; path = "resources/Rationale-Regular.ttf"; sourceTree = "<group>"; };
 		2A8583711724F1B50040E909 /* ColorScheme.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ColorScheme.cpp; sourceTree = "<group>"; };
 		2A8583721724F1B50040E909 /* ColorScheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorScheme.h; sourceTree = "<group>"; };
+		2AFD35EB1726453A008FCBAA /* TouchPad.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TouchPad.cpp; sourceTree = "<group>"; };
+		2AFD35EC1726453A008FCBAA /* TouchPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TouchPad.h; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* iPhone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhone_Prefix.pch; sourceTree = "<group>"; };
 		5326AEA710A23A0500278DE6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
@@ -255,6 +264,12 @@
 				2A3E6752172314D100B5E0E4 /* Wire.h */,
 				2A8583711724F1B50040E909 /* ColorScheme.cpp */,
 				2A8583721724F1B50040E909 /* ColorScheme.h */,
+				2A3FA8AD1725BAA200787DFE /* Inventory.cpp */,
+				2A3FA8AE1725BAA200787DFE /* Inventory.h */,
+				2A3FA8B01725BD0300787DFE /* InventoryIcon.cpp */,
+				2A3FA8B11725BD0300787DFE /* InventoryIcon.h */,
+				2AFD35EB1726453A008FCBAA /* TouchPad.cpp */,
+				2AFD35EC1726453A008FCBAA /* TouchPad.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -370,6 +385,9 @@
 				2A3E675D172314D100B5E0E4 /* Wire.cpp in Sources */,
 				2A3E676317234A8C00B5E0E4 /* GatePort.cpp in Sources */,
 				2A8583731724F1B50040E909 /* ColorScheme.cpp in Sources */,
+				2A3FA8AF1725BAA200787DFE /* Inventory.cpp in Sources */,
+				2A3FA8B21725BD0300787DFE /* InventoryIcon.cpp in Sources */,
+				2AFD35ED1726453A008FCBAA /* TouchPad.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
