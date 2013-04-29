@@ -19,7 +19,7 @@ Or::Or(ofVec2f p, int pNum)
     font.loadFont("Rationale-Regular.ttf", 25);
     font.setLineHeight(size.y);
     
-    me = AND;
+    me = OR;
     picked = false;
     
     initPorts();

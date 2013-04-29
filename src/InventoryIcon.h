@@ -35,7 +35,7 @@ public:
     ofVec2f size;
     Inventory *parent;
     ItemType type;
-
+    void loadResources();
     InventoryIcon(ItemType type);
     
     bool contains(ofVec2f p);

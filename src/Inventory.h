@@ -18,8 +18,6 @@ class Inventory
     ofVec2f pos;
     ofVec2f size;
     
-    vector<InventoryIcon*> icons;
-    
 public:
     Inventory(ofVec2f p);
     
@@ -27,6 +25,7 @@ public:
     
     InventoryIcon* contains(ofVec2f p);
     ofVec2f getWorldPosition();
+        vector<InventoryIcon*> icons;
     void draw();
 };
 

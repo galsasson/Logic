@@ -18,11 +18,8 @@
 
 class Level
 {
-    vector<Gate*> gates;
     vector<Wire*> wires;
     Result* result;
-    
-    Inventory *inventory;
     
     ofImage background;
     
@@ -36,8 +33,9 @@ class Level
     int portsNum;
     
 public:
+    
     Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes);
-    void loadResources();
+    void setup();
     
     void emitSignal();
     
@@ -47,6 +45,9 @@ public:
     void touchDown(ofTouchEventArgs & touch);
     void touchMoved(ofTouchEventArgs & touch);
     void touchUp(ofTouchEventArgs & touch);
+    
+    vector<Gate*> gates;
+    Inventory *inventory;
     
 private:
     void connect(Gate* g1, Gate* g2, GatePortType to);

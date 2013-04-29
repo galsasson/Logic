@@ -5,12 +5,16 @@
 #include "ofxiPhoneExtras.h"
 
 #include "Level.h"
+#include "Screen.h"
+#include "LevelSelector.h"
+#include "GameScreen.h"
+#include "MainMenu.h"
 
 class testApp : public ofxiPhoneApp{
     
-    Level *level;
-	
     public:
+
+
         void setup();
         void update();
         void draw();
@@ -27,6 +31,11 @@ class testApp : public ofxiPhoneApp{
         void gotMemoryWarning();
         void deviceOrientationChanged(int newOrientation);
 
+    Screen* screen;
+    MainMenu mainMenu;
+    LevelSelector levelSelector;
+    GameScreen gameScreen;
+    
 };
 
 

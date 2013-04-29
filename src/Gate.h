@@ -40,7 +40,7 @@ public:
     // how many ports in this gate
     int portsNum;
     
-
+    virtual void loadResources();
     virtual bool connectToInputs(vector<Wire*> wires, GatePortType type);
     virtual bool connectToOutputs(vector<Wire*> wires);
     virtual vector<Wire*> getWires(GatePortType t);
@@ -67,6 +67,7 @@ public:
     virtual void oscilateOutputPads(bool on);
     
     virtual void reset() {}
+    virtual void setup(){}
     virtual void update() {}
     virtual void draw() {}
     

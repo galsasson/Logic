@@ -17,6 +17,9 @@ InventoryIcon::InventoryIcon(ItemType t)
     
     size = ofVec2f(80, 60);
     
+    
+}
+void InventoryIcon::loadResources(){
     font.loadFont("Rationale-Regular.ttf", 25);
 }
 

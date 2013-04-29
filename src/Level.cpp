@@ -77,12 +77,20 @@ Level::Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes
         cout<<"result: "<<i<<" = "<<res[i]<<endl;
     }
     
-    loadResources();
+//    loadResources();
 }
 
-void Level::loadResources()
+void Level::setup()
 {
-    background.loadImage("level_background.jpg");
+
+    cout<<"Game Level: "<< background.loadImage("level_background.jpg");
+
+    for (int i=0; i<gates.size(); i++) {
+      gates[i]->loadResources();
+    }
+    for (int i=0; i<inventory->icons.size(); i++) {
+        inventory->icons[i]->loadResources();
+    }
 }
 
 void Level::draw()

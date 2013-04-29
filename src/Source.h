@@ -33,6 +33,7 @@ public:
     Source(ofVec2f p, vector<EState> bits);
     ~Source(){};
     
+    void loadResources();
     void initPorts();
     void initPads();
 

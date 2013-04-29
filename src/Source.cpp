@@ -22,10 +22,13 @@ Source::Source(ofVec2f p, vector<EState> bits)
     sendSignal = false;
     
     size = ofVec2f(30, 70);
-    font.loadFont("Rationale-Regular.ttf", 30);
     
     initPorts();
     initPads();
+}
+
+void Source::loadResources(){
+    font.loadFont("Rationale-Regular.ttf", 25);    
 }
 
 void Source::initPorts()

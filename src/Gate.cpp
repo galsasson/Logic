@@ -97,3 +97,7 @@ void Gate::oscilateOutputPads(bool on)
     return;
 }
 
+void Gate::loadResources(){
+    return;
+}
+
