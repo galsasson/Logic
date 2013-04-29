@@ -9,23 +9,47 @@
 #include "Result.h"
 #include "Wire.h"
 #include "Gate.h"
+#include "ColorScheme.h"
 
-#define POINTS 30
-#define RESULT_WIDTH 300
-#define RESULT_HEIGHT 100
-Result::Result(ofVec2f p, int pNum)
+
+Result::Result(ofVec2f p, vector<EState> expRes)
 {
     pos = p;
-    portsNum = pNum;
+    portsNum = expRes.size();
+    expectedResult = expRes;
     
     gotResult = false;
     resultSet = false;
+    size = ofVec2f(25,25);
+    totalSize = ofVec2f(300, 100);
+    
+    initPorts();
+    initPads();
 }
 
 Result::~Result()
 {
     result.clear();
 }
+
+void Result::initPorts()
+{
+    // add input top ports
+    for (int i=0; i<portsNum; i++)
+    {
+        float x = portsNum*size.x/2 - size.x/2 - i*size.x;
+        float y = -(portsNum+1)*size.y/2 - 25;
+        GatePort *gp = new GatePort(this, ofVec2f(x, y), GATEPORT_INPUTTOP);
+        inputsTop.push_back(gp);
+    }
+    
+}
+
+void Result::initPads()
+{
+    pads[0] = TouchPad(ofVec2f(0, -totalSize.y/2-50), 50);
+}
+
 
 bool Result::connectToInputs(vector<Wire*> wires, GatePortType type)
 {
@@ -36,15 +60,44 @@ bool Result::connectToInputs(vector<Wire*> wires, GatePortType type)
     {
         if (type == GATEPORT_INPUTTOP)
         {
-            float x = portsNum*GATE_SQUARE_SIZE/2 - GATE_SQUARE_SIZE/2 - i*GATE_SQUARE_SIZE;
-            float y = -(portsNum+1)*GATE_SQUARE_SIZE/2 - 18;
-            GatePort *gp = new GatePort(this, ofVec2f(x, y), type);
-            gp->connect(wires[i]);
-            inputsTop.push_back(gp);
+            inputsTop[i]->connect(wires[i]);
         }
+        pads[0].connected = true;
     }
         
     return true;
+}
+
+vector<Wire*> Result::getWires(GatePortType t)
+{
+    vector<Wire*> wires;
+    
+    if (t == GATEPORT_INPUTTOP)
+    {
+        for (int i=0; i<portsNum; i++)
+        {
+            wires.push_back(inputsTop[i]->wire);
+        }
+    }
+    
+    return wires;
+}
+
+void Result::disconnectWires(GatePortType t)
+{
+    if (t == GATEPORT_INPUTTOP)
+    {
+        for (int i=0; i<portsNum; i++)
+        {
+            inputsTop[i]->disconnect();
+        }
+        pads[0].connected = false;
+    }
+}
+
+void Result::setPosition(ofVec2f p)
+{
+    return;
 }
 
 vector<EState> Result::getResult()
@@ -62,12 +115,84 @@ vector<EState> Result::getResult()
     return res;
 }
 
+GatePortType Result::isTouchingPads(ofVec2f p)
+{
+    p-=pos;
+    if (pads[0].enabled && pads[0].contains(p))
+    {
+        pads[0].press();
+        return GATEPORT_INPUTTOP;
+    }
+    
+    return GATEPORT_UNKNOWN;
+}
+
+void Result::hideAllPads()
+{
+    pads[0].setVisible(false, 0);
+}
+
+void Result::releaseAllPads()
+{
+    pads[0].release();
+}
+
+void Result::releasePad(GatePortType t)
+{
+    if (t == GATEPORT_INPUTTOP)
+        pads[0].release();
+}
+
+void Result::holdPad(bool hold, GatePortType t)
+{
+    if (t == GATEPORT_INPUTTOP)
+        pads[0].hold(hold);
+}
+
+bool Result::isPadConnected(GatePortType t)
+{
+    if (t == GATEPORT_INPUTTOP)
+        return pads[0].connected;
+    
+    return false;
+}
+
+bool Result::contains(ofVec2f p)
+{
+    if (p.distance(pos)<50)
+        return true;
+    
+    return false;
+}
+
+void Result::pickUp()
+{
+    pads[0].setVisible(true, 0);
+}
+
+void Result::putDown()
+{
+    pads[0].setVisible(false, 40);
+}
+
+void Result::oscilateInputPads(bool on)
+{
+    if (!pads[0].connected)
+        pads[0].oscilate(on);
+}
+
+
 void Result::reset()
 {
     for (int i=0; i<inputsTop.size(); i++)
     {
         inputsTop[i]->reset();
     }
+}
+
+void Result::update()
+{
+    pads[0].update();
 }
 
 void Result::draw()
@@ -77,83 +202,34 @@ void Result::draw()
     ofTranslate(pos);
     
     ofFill();
-    if(resultSet){
-        ofSetColor(40);
-    }
-    else{
-        ofSetColor(30);
-    }
+    ofSetColor(100);
+    ofRectRounded(-totalSize/2, totalSize.x, totalSize.y, 5);
+    ofSetColor(160);
+    ofNoFill();
+    ofRectRounded(-totalSize/2, totalSize.x, totalSize.y, 5);
     
-    ofRect(-RESULT_WIDTH/2, -RESULT_HEIGHT/2, RESULT_WIDTH, RESULT_HEIGHT);
-    
-    for (int i=0; i<inputsTop.size(); i++)
+    /* draw colored squares inside the gate that respresent the ports status */
+    for (int i=0; i<portsNum; i++)
     {
         inputsTop[i]->draw();
-    }
-
-    ofPopMatrix();
-/*
-    ofSetLineWidth(2);
-    ofSetColor(128);
-    //result complement
-    ofBeginShape();
-    for (int i=0; i<POINTS; i++)
-    {
-        ofVertex((float)i*inc-20, resultDeform.getAt(POINTS-i));
-    }
-    ofEndShape();
-    
-    ofSetColor(200);
-    ofSetLineWidth(2);
-    
-    
-    //incoming wire
-    if (wireResult.size()>0||resultSet) {
-        ofBeginShape();
-        for (int i=0; i<POINTS; i++)
-        {
-            ofVertex((float)i*inc-20, deform->getAt(POINTS-i));
-        }
-        ofEndShape();
         
+        ofFill();
+        // draw left input
+        if (inputsTop[i]->getState() == HIGH)
+            ofSetColor(ColorScheme::getColor(i));
+        else
+            ofSetColor(ColorScheme::getColor(i)*0.3);
+        
+        ofRect(portsNum*size.x/2 - (i+1)*size.x+4, portsNum*size.y/2-50, size.x-8, size.y-8);
+        
+        if (expectedResult[i] == HIGH)
+            ofSetColor(ColorScheme::getColor(i));
+        else
+            ofSetColor(ColorScheme::getColor(i)*0.3);
+        ofRect(portsNum*size.x/2 - (i+1)*size.x+4, portsNum*size.y/2-8, size.x-8, size.y-8);
     }
     
-    for (int i=0; i<inputsTop.size(); i++)
-    {
-        inputsTop[i]->draw();
-    }
+    pads[0].draw();
     
     ofPopMatrix();
-    
-    if(gotResult){
-        gotResult = false;
-        int x =0;
-        for (int i=0; i<result.size(); i++) {
-            
-            cout<<result[i]<<" "<<-(wireResult[i*6]/10)<<endl;
-            //Update: This will not exist in the final implementation.
-            //The result class will get user input form getResult and compare it to result provided by config file
-            
-            //The draw loop will only be used to draw the wires not check for results.
-            
-            //this is where the comparison between the incoming value and stored result is happening
-            //there are 6 values for each bit in the wireResult and the sign is the complement of the logic as that is whats required for drawing. That is why there is a -ve sign in front of it.
-            if(result[i] == -(wireResult[i*6])/10){
-                x++;
-            }
-            
-            
-        }
-        if(x==3){
-            cout<<"right answer"<<endl;
-            resultSet = true;
-            
-        }
-        wireResult.clear();
-        
-        
-    }
- */
-    
-    
 }

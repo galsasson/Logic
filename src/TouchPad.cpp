@@ -24,6 +24,7 @@ TouchPad::TouchPad()
     alphaAcc = 0;
     
     timer = 0;
+    connected = false;
 }
 
 TouchPad::TouchPad(ofVec2f p, float r)
@@ -41,6 +42,7 @@ TouchPad::TouchPad(ofVec2f p, float r)
     alphaAcc = 0;
     
     timer = 0;
+    connected = false;
 }
 
 bool TouchPad::contains(ofVec2f p)

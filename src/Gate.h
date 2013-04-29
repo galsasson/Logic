@@ -44,7 +44,7 @@ public:
     virtual bool connectToInputs(vector<Wire*> wires, GatePortType type);
     virtual bool connectToOutputs(vector<Wire*> wires);
     virtual vector<Wire*> getWires(GatePortType t);
-    virtual void disconnectWires(GatePortType t) {}
+    virtual void disconnectWires(GatePortType t, vector<Wire*> wires) {}
     
     virtual EState getStateImmediately(GatePort *gp);
     virtual void setState(GatePort *gp, EState s);

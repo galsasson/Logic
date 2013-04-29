@@ -58,7 +58,10 @@ EState GatePort::getStateImmediately()
     else
     {
         // ask the wire for the status
-        return wire->getWireElectricity();
+        if (wire)
+            return wire->getWireElectricity();
+        else
+            return FLOATING;
     }
 }
 

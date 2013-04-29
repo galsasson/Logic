@@ -91,15 +91,18 @@ vector<Wire*> Source::getWires(GatePortType t)
     return wires;
 }
 
-void Source::disconnectWires(GatePortType t)
+void Source::disconnectWires(GatePortType t, vector<Wire*> wires)
 {
     if (t == GATEPORT_OUTPUT)
     {
-        while (outputs.size()>1)
+        for (int i=0; i<outputs.size()-1; i++)
         {
-            outputs.erase(outputs.begin());
+            if (outputs[i][0]->wire == wires[0])
+                outputs.erase(outputs.begin()+i);
         }
-        pads[0].connected = false;
+        
+        if (outputs.size()==1)
+            pads[0].connected = false;
     }
 }
 
@@ -215,8 +218,10 @@ void Source::draw()
     }
 
     ofFill();
+    /*
     ofSetColor(0, 0, 0, 100);
     ofRect(-size.x*portsNum/2+10, -size.y/2+10, size.x*portsNum, size.y);
+    */
     ofSetColor(130);
     ofRect(-size.x*portsNum/2, -size.y/2, size.x*portsNum, size.y);
     ofSetColor(80);
@@ -244,7 +249,7 @@ void Source::draw()
     float y=size.y/2-26;
     for (int i=portsNum-1; i>=0; i--)
     {
-        if (outputs[0][i]->getState() == HIGH)
+        if (electricity[i]==HIGH)
             ofSetColor(ColorScheme::getColor(i));
         else
             ofSetColor(ColorScheme::getColor(i)*0.3);

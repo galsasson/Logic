@@ -33,8 +33,10 @@ class Level
     Gate *conGate2;
     GatePortType conType2;
     
+    int portsNum;
+    
 public:
-    Level();
+    Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes);
     void loadResources();
     
     void emitSignal();

@@ -8,7 +8,20 @@ void testApp::setup(){
 	//If you want a landscape oreintation 
 	//iPhoneSetOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
 	
-    level = new Level();
+    vector<EState> i1;
+    i1.push_back(HIGH);
+    i1.push_back(LOW);
+    
+    vector<EState> i2;
+    i2.push_back(LOW);
+    i2.push_back(HIGH);
+    
+    vector<EState> exp;
+    exp.push_back(HIGH);
+    exp.push_back(HIGH);
+    
+    
+    level = new Level(i1, i2, exp);
     
 //    ofEnableSmoothing();
 

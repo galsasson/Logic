@@ -18,7 +18,7 @@
 #include "ColorScheme.h"
 #include "InventoryIcon.h"
 
-Level::Level()
+Level::Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes)
 {
     currentGate = NULL;
     conGate1 = NULL;
@@ -26,23 +26,25 @@ Level::Level()
     conType1 = GATEPORT_UNKNOWN;
     conType2 = GATEPORT_UNKNOWN;
     
-    vector<EState> s1;
-    s1.push_back(HIGH);
-    s1.push_back(LOW);
-    s1.push_back(HIGH);
+    portsNum = input1.size();
     
-    vector<EState> s2;
-    s2.push_back(HIGH);
-    s2.push_back(HIGH);
-    s2.push_back(LOW);
-    
-    Source *src1 = new Source(ofVec2f(160, 40), s1);
-    Source *src2 = new Source(ofVec2f(480, 40), s2);
+//    vector<EState> s1;
+//    s1.push_back(HIGH);
+//    s1.push_back(LOW);
+//    s1.push_back(HIGH);
+//    
+//    vector<EState> s2;
+//    s2.push_back(HIGH);
+//    s2.push_back(HIGH);
+//    s2.push_back(LOW);
+//    
+    Source *src1 = new Source(ofVec2f(160, 40), input1);
+    Source *src2 = new Source(ofVec2f(480, 40), input2);
 //    And *and1 = new And(ofVec2f(500, 250), 3);
 //    Not *not1 = new Not(ofVec2f(480, 420), 3);
 //    Or *or1 = new Or(ofVec2f(150, 300), 3);
 //    And *and2 = new And(ofVec2f(320, 550), 3);
-    result = new Result(ofVec2f(320, 800), 3);
+    result = new Result(ofVec2f(320, 800), expRes);
 
     gates.push_back(src1);
     gates.push_back(src2);
@@ -145,8 +147,8 @@ void Level::disconnectWires(vector<Wire *> toRemove)
     {
         GatePort *inGP = toRemove[r]->input;
         GatePort *outGP = toRemove[r]->output;
-        (inGP->getParentGate())->disconnectWires(inGP->type);
-        (outGP->getParentGate())->disconnectWires(outGP->type);
+        (inGP->getParentGate())->disconnectWires(inGP->type, toRemove);
+        (outGP->getParentGate())->disconnectWires(outGP->type, toRemove);
         
         for (int i=0; i<wires.size(); i++)
         {
@@ -200,15 +202,15 @@ void Level::touchDown(ofTouchEventArgs & touch)
         {
             if (icon->type == INVITEM_AND)
             {
-                currentGate = new And(icon->getWorldPosition(), 3);
+                currentGate = new And(icon->getWorldPosition(), portsNum);
             }
             else if (icon->type == INVITEM_OR)
             {
-                currentGate = new Or(icon->getWorldPosition(), 3);
+                currentGate = new Or(icon->getWorldPosition(), portsNum);
             }
             else if (icon->type == INVITEM_NOT)
             {
-                currentGate = new Not(icon->getWorldPosition(), 3);
+                currentGate = new Not(icon->getWorldPosition(), portsNum);
             }
             gates.push_back(currentGate);
             currentGate->pickUp();
