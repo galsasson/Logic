@@ -83,7 +83,7 @@ vector<Wire*> Result::getWires(GatePortType t)
     return wires;
 }
 
-void Result::disconnectWires(GatePortType t)
+void Result::disconnectWires(GatePortType t, vector<Wire*> wires)
 {
     if (t == GATEPORT_INPUTTOP)
     {

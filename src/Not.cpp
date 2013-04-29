@@ -125,7 +125,7 @@ vector<Wire*> Not::getWires(GatePortType t)
     return wires;
 }
 
-void Not::disconnectWires(GatePortType t)
+void Not::disconnectWires(GatePortType t, vector<Wire*> wires)
 {
     if (t == GATEPORT_INPUTTOP)
     {
@@ -137,11 +137,14 @@ void Not::disconnectWires(GatePortType t)
     }
     else if (t == GATEPORT_OUTPUT)
     {
-        while (outputs.size()>1)
+        for (int i=0; i<outputs.size()-1; i++)
         {
-            outputs.erase(outputs.begin());
+            if (outputs[i][0]->wire == wires[0])
+                outputs.erase(outputs.begin()+i);
         }
-        pads[1].connected = false;
+        
+        if (outputs.size()==1)
+            pads[1].connected = false;
     }
 }
 

@@ -147,7 +147,7 @@ vector<Wire*> Or::getWires(GatePortType t)
     return wires;
 }
 
-void Or::disconnectWires(GatePortType t)
+void Or::disconnectWires(GatePortType t, vector<Wire*> wires)
 {
     if (t == GATEPORT_INPUTLEFT)
     {
@@ -167,11 +167,14 @@ void Or::disconnectWires(GatePortType t)
     }
     else if (t == GATEPORT_OUTPUT)
     {
-        while (outputs.size()>1)
+        for (int i=0; i<outputs.size()-1; i++)
         {
-            outputs.erase(outputs.begin());
+            if (outputs[i][0]->wire == wires[0])
+                outputs.erase(outputs.begin()+i);
         }
-        pads[2].connected = false;
+        
+        if (outputs.size()==1)
+            pads[2].connected = false;
     }
 }
 

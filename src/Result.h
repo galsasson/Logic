@@ -36,7 +36,7 @@ public:
     
     bool connectToInputs(vector<Wire*> wires, GatePortType type);
     vector<Wire*> getWires(GatePortType t);
-    void disconnectWires(GatePortType t);
+    void disconnectWires(GatePortType t, vector<Wire*> wires);
 
     void setPosition(ofVec2f p);
 
