@@ -31,6 +31,9 @@
 		2AFD35ED1726453A008FCBAA /* TouchPad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AFD35EB1726453A008FCBAA /* TouchPad.cpp */; };
 		5326AEA810A23A0500278DE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5326AEA710A23A0500278DE6 /* CoreLocation.framework */; };
 		53F323EB10A20EDB00E0DAE4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */; };
+		B3C9AEA0173035FD00D39822 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3C9AE9A173035FD00D39822 /* Light.cpp */; };
+		B3C9AEA1173035FD00D39822 /* Electricity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3C9AE9C173035FD00D39822 /* Electricity.cpp */; };
+		B3C9AEA2173035FD00D39822 /* PingPong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B3C9AE9E173035FD00D39822 /* PingPong.cpp */; };
 		BB16EBD20F2B2A9500518274 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD10F2B2A9500518274 /* OpenGLES.framework */; };
 		BB16EBD90F2B2AB500518274 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD80F2B2AB500518274 /* QuartzCore.framework */; };
 		BB24DDCA10DA781C00E9C588 /* ofxiphone-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB24DDC910DA781C00E9C588 /* ofxiphone-Info.plist */; };
@@ -111,6 +114,12 @@
 		32CA4F630368D1EE00C91783 /* iPhone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhone_Prefix.pch; sourceTree = "<group>"; };
 		5326AEA710A23A0500278DE6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		B3C9AE9A173035FD00D39822 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
+		B3C9AE9B173035FD00D39822 /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
+		B3C9AE9C173035FD00D39822 /* Electricity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Electricity.cpp; sourceTree = "<group>"; };
+		B3C9AE9D173035FD00D39822 /* Electricity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Electricity.h; sourceTree = "<group>"; };
+		B3C9AE9E173035FD00D39822 /* PingPong.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PingPong.cpp; sourceTree = "<group>"; };
+		B3C9AE9F173035FD00D39822 /* PingPong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PingPong.h; sourceTree = "<group>"; };
 		BB16EBD10F2B2A9500518274 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BB16EBD80F2B2AB500518274 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BB24DDC910DA781C00E9C588 /* ofxiphone-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ofxiphone-Info.plist"; sourceTree = "<group>"; };
@@ -193,6 +202,96 @@
 			name = "core frameworks";
 			sourceTree = "<group>";
 		};
+		B3C9AE92173034D200D39822 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				2AB9B97E172F0AF9005737A1 /* Button.cpp */,
+				2AB9B97F172F0AF9005737A1 /* Button.h */,
+				2AB9B97A172F0AF9005737A1 /* LevelSelector.h */,
+				2AB9B97B172F0AF9005737A1 /* LevelSelector.mm */,
+				2AB9B97C172F0AF9005737A1 /* GameScreen.h */,
+				2AB9B97D172F0AF9005737A1 /* GameScreen.mm */,
+				2AB9B976172F0AF9005737A1 /* Screen.h */,
+				2AB9B977172F0AF9005737A1 /* Screen.mm */,
+				2AB9B978172F0AF9005737A1 /* MainMenu.h */,
+				2AB9B979172F0AF9005737A1 /* MainMenu.mm */,
+			);
+			name = Screens;
+			sourceTree = "<group>";
+		};
+		B3C9AE951730350900D39822 /* Gates */ = {
+			isa = PBXGroup;
+			children = (
+				2A3E6742172314D000B5E0E4 /* Gate.cpp */,
+				2A3E6743172314D000B5E0E4 /* Gate.h */,
+				2A3E673C172314D000B5E0E4 /* And.cpp */,
+				2A3E673D172314D000B5E0E4 /* And.h */,
+				2A3E674A172314D100B5E0E4 /* Or.cpp */,
+				2A3E674B172314D100B5E0E4 /* Or.h */,
+				2A3E6748172314D100B5E0E4 /* Not.cpp */,
+				2A3E6749172314D100B5E0E4 /* Not.h */,
+				2A3E674C172314D100B5E0E4 /* Result.cpp */,
+				2A3E674D172314D100B5E0E4 /* Result.h */,
+				2A3E674E172314D100B5E0E4 /* Source.cpp */,
+				2A3E674F172314D100B5E0E4 /* Source.h */,
+			);
+			name = Gates;
+			sourceTree = "<group>";
+		};
+		B3C9AE961730356D00D39822 /* Connections */ = {
+			isa = PBXGroup;
+			children = (
+				2AFD35EB1726453A008FCBAA /* TouchPad.cpp */,
+				2AFD35EC1726453A008FCBAA /* TouchPad.h */,
+				2A3E676117234A8B00B5E0E4 /* GatePort.cpp */,
+				2A3E676217234A8B00B5E0E4 /* GatePort.h */,
+				2A3E6751172314D100B5E0E4 /* Wire.cpp */,
+				2A3E6752172314D100B5E0E4 /* Wire.h */,
+			);
+			name = Connections;
+			sourceTree = "<group>";
+		};
+		B3C9AE971730359200D39822 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				2A3FA8AD1725BAA200787DFE /* Inventory.cpp */,
+				2A3FA8AE1725BAA200787DFE /* Inventory.h */,
+				2A3FA8B01725BD0300787DFE /* InventoryIcon.cpp */,
+				2A3FA8B11725BD0300787DFE /* InventoryIcon.h */,
+				2A3E673E172314D000B5E0E4 /* Builder.cpp */,
+				2A3E673F172314D000B5E0E4 /* Builder.h */,
+				2A3E6744172314D000B5E0E4 /* Level.cpp */,
+				2A3E6745172314D100B5E0E4 /* Level.h */,
+				2A3E6750172314D100B5E0E4 /* State.h */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		B3C9AE98173035A700D39822 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				B3C9AE9A173035FD00D39822 /* Light.cpp */,
+				B3C9AE9B173035FD00D39822 /* Light.h */,
+				B3C9AE9C173035FD00D39822 /* Electricity.cpp */,
+				B3C9AE9D173035FD00D39822 /* Electricity.h */,
+				B3C9AE9E173035FD00D39822 /* PingPong.cpp */,
+				B3C9AE9F173035FD00D39822 /* PingPong.h */,
+				2A8583711724F1B50040E909 /* ColorScheme.cpp */,
+				2A8583721724F1B50040E909 /* ColorScheme.h */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
+		B3C9AE99173035DA00D39822 /* openFrameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E4D8936B11527B74007E1F53 /* main.mm */,
+				E4D8936C11527B74007E1F53 /* testApp.h */,
+				E4D8936D11527B74007E1F53 /* testApp.mm */,
+			);
+			name = openFrameworks;
+			sourceTree = "<group>";
+		};
 		BB16E9930F2B1E5900518274 /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,48 +338,12 @@
 		E4D8936A11527B74007E1F53 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				2AB9B976172F0AF9005737A1 /* Screen.h */,
-				2AB9B977172F0AF9005737A1 /* Screen.mm */,
-				2AB9B978172F0AF9005737A1 /* MainMenu.h */,
-				2AB9B979172F0AF9005737A1 /* MainMenu.mm */,
-				2AB9B97A172F0AF9005737A1 /* LevelSelector.h */,
-				2AB9B97B172F0AF9005737A1 /* LevelSelector.mm */,
-				2AB9B97C172F0AF9005737A1 /* GameScreen.h */,
-				2AB9B97D172F0AF9005737A1 /* GameScreen.mm */,
-				2AB9B97E172F0AF9005737A1 /* Button.cpp */,
-				2AB9B97F172F0AF9005737A1 /* Button.h */,
-				2A3E673C172314D000B5E0E4 /* And.cpp */,
-				2A3E673D172314D000B5E0E4 /* And.h */,
-				2A3E673E172314D000B5E0E4 /* Builder.cpp */,
-				2A3E673F172314D000B5E0E4 /* Builder.h */,
-				2A3E6742172314D000B5E0E4 /* Gate.cpp */,
-				2A3E6743172314D000B5E0E4 /* Gate.h */,
-				2A3E676117234A8B00B5E0E4 /* GatePort.cpp */,
-				2A3E676217234A8B00B5E0E4 /* GatePort.h */,
-				2A3E6744172314D000B5E0E4 /* Level.cpp */,
-				2A3E6745172314D100B5E0E4 /* Level.h */,
-				E4D8936B11527B74007E1F53 /* main.mm */,
-				2A3E6748172314D100B5E0E4 /* Not.cpp */,
-				2A3E6749172314D100B5E0E4 /* Not.h */,
-				2A3E674A172314D100B5E0E4 /* Or.cpp */,
-				2A3E674B172314D100B5E0E4 /* Or.h */,
-				2A3E674C172314D100B5E0E4 /* Result.cpp */,
-				2A3E674D172314D100B5E0E4 /* Result.h */,
-				2A3E674E172314D100B5E0E4 /* Source.cpp */,
-				2A3E674F172314D100B5E0E4 /* Source.h */,
-				2A3E6750172314D100B5E0E4 /* State.h */,
-				E4D8936C11527B74007E1F53 /* testApp.h */,
-				E4D8936D11527B74007E1F53 /* testApp.mm */,
-				2A3E6751172314D100B5E0E4 /* Wire.cpp */,
-				2A3E6752172314D100B5E0E4 /* Wire.h */,
-				2A8583711724F1B50040E909 /* ColorScheme.cpp */,
-				2A8583721724F1B50040E909 /* ColorScheme.h */,
-				2A3FA8AD1725BAA200787DFE /* Inventory.cpp */,
-				2A3FA8AE1725BAA200787DFE /* Inventory.h */,
-				2A3FA8B01725BD0300787DFE /* InventoryIcon.cpp */,
-				2A3FA8B11725BD0300787DFE /* InventoryIcon.h */,
-				2AFD35EB1726453A008FCBAA /* TouchPad.cpp */,
-				2AFD35EC1726453A008FCBAA /* TouchPad.h */,
+				B3C9AE99173035DA00D39822 /* openFrameworks */,
+				B3C9AE98173035A700D39822 /* Graphics */,
+				B3C9AE971730359200D39822 /* Utilities */,
+				B3C9AE961730356D00D39822 /* Connections */,
+				B3C9AE951730350900D39822 /* Gates */,
+				B3C9AE92173034D200D39822 /* Screens */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -402,6 +465,9 @@
 				2AB9B982172F0AF9005737A1 /* LevelSelector.mm in Sources */,
 				2AB9B983172F0AF9005737A1 /* GameScreen.mm in Sources */,
 				2AB9B984172F0AF9005737A1 /* Button.cpp in Sources */,
+				B3C9AEA0173035FD00D39822 /* Light.cpp in Sources */,
+				B3C9AEA1173035FD00D39822 /* Electricity.cpp in Sources */,
+				B3C9AEA2173035FD00D39822 /* PingPong.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
