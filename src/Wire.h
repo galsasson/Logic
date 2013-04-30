@@ -13,16 +13,24 @@
 #include "GatePort.h"
 
 class Gate;
+class Electricity;
 
 class Wire {
-    EState state;
+    EState          state;
     
     vector<ofVec2f> points;
     
     ofVec2f start, end;
     
-    bool shootSignal;
-    float signalPos;
+    bool            shootSignal;
+    float           signalPos;
+    
+    float           step;
+    
+    Electricity*    electricity;
+    bool            drawElec;
+    
+    ofVec2f*        translate;
     
 public:
     GatePort* input;
@@ -41,15 +49,22 @@ public:
     EState getState();
     void setState(EState s);
     
+    //keeping the steps correct
+    void setStep(float step) {this->step = step;};
+    
     void setSource(ofVec2f s);
     void setTarget(ofVec2f t);
     
     void moveElectricity();
+    
+    Electricity* getElectricity();
 
     void draw();
     
-private:
     float getPathLength();
+    
+private:
+    
 };
 
 

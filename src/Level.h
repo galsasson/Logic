@@ -15,10 +15,14 @@
 #include "Wire.h"
 #include "Result.h"
 #include "Inventory.h"
-
+#include "PingPong.h"
+#include "Electricity.h"
 class Level
 {
+//    vector<Gate*> gates;
     vector<Wire*> wires;
+    vector<Electricity*> electricity;
+    
     Result* result;
     
     ofImage background;
@@ -31,6 +35,8 @@ class Level
     GatePortType conType2;
     
     int portsNum;
+
+    PingPong* elecPingPong;
     
 public:
     
@@ -48,6 +54,7 @@ public:
     
     vector<Gate*> gates;
     Inventory *inventory;
+    void getAndSetWireLengthsAndSteps();
     
 private:
     void connect(Gate* g1, Gate* g2, GatePortType to);
