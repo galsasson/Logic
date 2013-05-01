@@ -5,6 +5,8 @@ void testApp::setup(){
     ofEnableAlphaBlending();
     ofSetFrameRate(60);
 
+    
+    
 	// initialize the accelerometer
 	ofxAccelerometer.setup();
 	
@@ -12,6 +14,7 @@ void testApp::setup(){
 	//iPhoneSetOrientation(OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT);
     screen =&mainMenu;
     screen->setup();
+    
 }
 
 //--------------------------------------------------------------

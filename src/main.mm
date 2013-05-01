@@ -2,11 +2,10 @@
 #include "testApp.h"
 
 int main(){
-    ofAppiPhoneWindow * iOSWindow = new ofAppiPhoneWindow();
-	ofSetupOpenGL(iOSWindow, 640,960, OF_FULLSCREEN);			// <-------- setup the GL context
+    ofPtr<ofAppiPhoneWindow> iOSWindow = ofPtr<ofAppiPhoneWindow> (new ofAppiPhoneWindow());
     iOSWindow->enableRetina();
     iOSWindow->enableAntiAliasing(2);
-    
-
+    iOSWindow->enableRetinaSupport();
+	ofSetupOpenGL(iOSWindow, 640, 960, OF_FULLSCREEN);			// <-------- setup the GL context
 	ofRunApp(new testApp);
 }

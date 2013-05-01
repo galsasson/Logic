@@ -28,6 +28,8 @@ Level::Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes
     
     portsNum = input1.size();
     
+    elecPingPong = new PingPong(); 
+    elecPingPong->setup(640, 960);   
 //    vector<EState> s1;
 //    s1.push_back(HIGH);
 //    s1.push_back(LOW);
@@ -63,13 +65,15 @@ Level::Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes
 //    connect(or1, and2, GATEPORT_INPUTLEFT);
 //    connect(and2, result, GATEPORT_INPUTTOP);
     
-    
+//    getAndSetWireLengthsAndSteps();
     // Inventory
     inventory = new Inventory(ofVec2f(0, 860));
     inventory->addIcon(new InventoryIcon(INVITEM_AND));
     inventory->addIcon(new InventoryIcon(INVITEM_OR));
     inventory->addIcon(new InventoryIcon(INVITEM_NOT));
     
+    //flag for FBO's and electricity
+    drawElectricity = false;
     
     vector<EState> res = result->getResult();
     for (int i=0; i<res.size(); i++)
@@ -78,6 +82,29 @@ Level::Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes
     }
     
 //    loadResources();
+}
+
+void Level::getAndSetWireLengthsAndSteps()
+{
+    vector<Wire*>::iterator it = wires.begin();
+    float totalLength = 0.0;
+    for (; it != wires.end(); it++) {
+        totalLength += (*it)->getPathLength();
+    }
+    
+    
+    float highest = 0.0f;
+    for (it = wires.begin(); it != wires.end(); it++) {
+        float temp = (*it)->getPathLength()/totalLength;
+        if (temp > highest) {
+            highest = temp;
+        }
+    }
+    
+    it = wires.begin();
+    for (; it != wires.end(); it++) {
+        (*it)->setStep(highest);
+    }
 }
 
 void Level::setup()
@@ -99,15 +126,24 @@ void Level::draw()
 //    background.draw(0, 0);
     ofBackground(ColorScheme::getColor(4)*0.15);
     
-    for (int i=0 ; i<wires.size(); i++)
+    int i;
+    for (i=0 ; i<wires.size(); i++)
     {
+        
         wires[i]->draw();
     }
 
-    for (int i=0 ; i<gates.size(); i++)
+    for (i=0 ; i<gates.size(); i++)
     {
         gates[i]->draw();
     }
+    if (drawElectricity) {
+        glPushMatrix();
+            ofSetColor(255);
+            elecPingPong->getFbo().draw(0, 0);
+        glPopMatrix();
+    }
+    
     
     inventory->draw();
     
@@ -128,6 +164,12 @@ void Level::update()
     
     if (currentGate != NULL)
         currentGate->update();
+
+    //this decides whether to draw stuff
+    if (drawElectricity) {
+        elecPingPong->renderToFbo(&wires);
+    }
+    
 }
 
 
@@ -202,6 +244,7 @@ void Level::releaseHoldPads()
 
 void Level::touchDown(ofTouchEventArgs & touch)
 {
+    cout << "touchDown in Level " << touch.x << " " << touch.y << endl;
     if (touch.numTouches == 1)
     {
         // see if the user touch inventory icon
@@ -318,12 +361,14 @@ void Level::touchDown(ofTouchEventArgs & touch)
 
     if (touch.numTouches == 3)
     {
+        getAndSetWireLengthsAndSteps();
         emitSignal();
+        drawElectricity = true;
     }
 }
 
 void Level::touchMoved(ofTouchEventArgs & touch)
-{
+{   cout << "touchMoved in Level " << touch.x << " " << touch.y << endl;
     if (currentGate)
     {
         currentGate->setPosition(ofVec2f(touch.x, touch.y));
@@ -332,6 +377,7 @@ void Level::touchMoved(ofTouchEventArgs & touch)
 
 void Level::touchUp(ofTouchEventArgs & touch)
 {
+    cout << "touchUp in Level " << touch.x << " " << touch.y << endl;
     if (currentGate)
     {
         currentGate->putDown();
@@ -363,5 +409,9 @@ void Level::touchUp(ofTouchEventArgs & touch)
     for (int i=0; i<wires.size(); i++)
     {
         wires[i]->reset();
+    }
+    
+    if (drawElectricity) {
+        drawElectricity = false;
     }
 }

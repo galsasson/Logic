@@ -13,10 +13,14 @@
 #include "Screen.h"
 #include "Button.h"
 #include "ofMain.h"
+#include "Word.h"
 
-class MainMenu:public Screen{
+class MainMenu : public Screen{
 public:
+    vector<Word*> words;
+    
     MainMenu();
+    ~MainMenu();
     
     void setup();
     void update();
@@ -28,5 +32,7 @@ public:
     void touchUp(ofTouchEventArgs & touch);
     void touchDoubleTap(ofTouchEventArgs & touch);
     void touchCancelled(ofTouchEventArgs & touch);
+    
+    
 };
 #endif /* defined(__Logic__MainMenu__) */

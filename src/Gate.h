@@ -20,11 +20,13 @@
 
 
 class Wire;
+class Light;
 
 class Gate {
 
 protected:
     
+    vector<Light*> lightBulbs;
     vector<GatePort*> inputsLeft;
     vector<GatePort*> inputsRight;
     vector<GatePort*> inputsTop;
@@ -75,7 +77,7 @@ public:
     virtual void setPosition(ofVec2f p);
     
     virtual Gates getMe() { return me; };
-    
+    virtual vector<Light*> getLightBulbs() {return lightBulbs;};
     //this isn't a pixel location Vector it's for a column/row
     //position which we can then standardize
     virtual void setGridPosition(ofVec2f grid) { pos = grid; };

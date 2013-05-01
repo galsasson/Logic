@@ -10,6 +10,7 @@
 #include "Gate.h"
 #include "GatePort.h"
 #include "ColorScheme.h"
+#include "Electricity.h"
 
 #define POINTS_NUM  100
 
@@ -18,11 +19,16 @@ Wire::Wire()
     input = NULL;
     output = NULL;
     
+    electricity = new Electricity();
+    
     shootSignal = false;
     signalPos = 0;
     
     points.push_back(ofVec2f(0,0));
     points.push_back(ofVec2f(0,0));
+    //This is to make the electricity start and stop drawing
+    //It functionally doesn't work right now.
+    drawElec = false;
 }
 
 Wire::~Wire()
@@ -82,11 +88,16 @@ void Wire::reset()
 
 void Wire::setSource(ofVec2f source)
 {
+    //Why aren't we doing it this way?
+    //points.push_back(source);
     points[0] = source;
+    electricity->setStartPosition(source);
 }
 
 void Wire::setTarget(ofVec2f target)
 {
+    //Why aren't we doing it this way?
+    //points.push_back(target);
     points[1] = target;
 }
 
@@ -94,12 +105,14 @@ void Wire::moveElectricity()
 {
     if (shootSignal)
     {
-        signalPos+=20;
+        signalPos+=(100*step);
+        drawElec = false;
         if (signalPos > getPathLength())
         {
             output->setState(state);
             signalPos = getPathLength();
             shootSignal = false;
+            drawElec = false;
         }
     }
     
@@ -115,45 +128,49 @@ void Wire::draw()
         ofPushMatrix();
         ofVec2f vec = points[i]-points[i-1];
         float length = vec.length();
+        float atanPos = ofRadToDeg(atan2(vec.y, vec.x));
         ofTranslate(points[i-1]);
-        ofRotate(ofRadToDeg(atan2(vec.y, vec.x)));
-
+        ofRotate(atanPos);
+        electricity->setTranslate(points[i-1]);
+        electricity->setRotate(atanPos);
+        
         // draw the line off
         ofSetColor(ColorScheme::getWireOff());
         ofSetLineWidth(3);
         ofLine(0, 0, length, 0);
-    
+        
         // draw the wire on
         if (state == HIGH)
         {
-            if (signalPos >= lengthPassed + length)
+            if (signalPos > lengthPassed)
             {
                 // draw the entire wire on
                 ofSetColor(ColorScheme::getWireOn());
-                ofLine(0, 0, length, 0);
-            }
-            else if (signalPos > lengthPassed)
-            {
-                // draw wire on until reminder
-                float reminder = signalPos - lengthPassed;
-                ofSetColor(ColorScheme::getWireOn());
-                ofLine(0, 0, reminder, 0);
-                
-                // draw the glowing tip
-                if (shootSignal)
-                {
-                    ofSetLineWidth(2);
-                    ofSetColor(255, 255, 255);
-                    ofLine(reminder-10, 0, reminder, 0);
-                }
+                ofLine(0, 0, signalPos-lengthPassed, 0);
+                //this doesn't totally work yet
+                drawElec = true;
+                electricity->setPosition(ofVec2f(signalPos - lengthPassed, 0));
+            } else {
+                //this doesn't totally work yet
+                drawElec = false;
             }
         }
-        
-        lengthPassed += length;
-        ofPopMatrix();
-        
+        else {
+            
+        }
     }
     
+    electricity->setDraw(drawElec);
+    //        lengthPassed += length;
+    ofPopMatrix();
+    
+}
+
+
+
+Electricity* Wire::getElectricity()
+{
+    return electricity;
 }
 
 float Wire::getPathLength()

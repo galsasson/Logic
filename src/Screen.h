@@ -11,9 +11,12 @@
 
 #include <iostream>
 #include "ofMain.h"
+#include "Letter.h"
 
 class Screen{
 public:
+    
+    
     Screen();
     
     virtual void setup();
@@ -29,6 +32,8 @@ public:
     virtual void touchCancelled(ofTouchEventArgs & touch);
     
     ofImage background;
+    
+    ofTrueTypeFont font;
 
 };
 #endif /* defined(__Logic__Screen__) */

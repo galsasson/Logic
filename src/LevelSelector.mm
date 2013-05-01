@@ -15,7 +15,8 @@ LevelSelector::LevelSelector(){
     
 }
 void LevelSelector::setup(){
-    background.loadImage("Screens/LevelSelector.jpg");
+//    background.loadImage("Screens/LevelSelector.jpg");
+    
 }
 
 void LevelSelector::update(){

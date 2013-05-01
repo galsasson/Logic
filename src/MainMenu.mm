@@ -14,16 +14,28 @@ MainMenu::MainMenu(){
     
 }
 
-void MainMenu::setup(){
-    background.loadImage("Screens/MainMenu.jpg");
-    buttons.clear();
-    //level selector
-    buttons.push_back(Button(ofVec2f(260, 530), 100, 50));
-    //mainMenu (temp)
-    buttons.push_back(Button(ofVec2f(260, 600), 100, 50));
-    //gameScreen
-    buttons.push_back(Button(ofVec2f(240, 680), 150, 50));
+MainMenu::~MainMenu()
+{
+    for (vector<Word*>::iterator it = words.begin(); it != words.end(); it++) {
+        delete *it;
+    }
+}
 
+void MainMenu::setup(){
+    
+    //initiating the main menu words
+    
+    //Word(position of the word, fontname, word to be shown, depth of the mesh, font size, whether it's a button
+    
+    words.push_back(new Word(ofPoint(ofGetWidth()/2, ofGetHeight()/2-150, -250), "sdf.ttf", "Logic", 50, 120, false));
+    words.push_back(new Word(ofPoint(ofGetWidth()/2, ofGetHeight()/2+100, -250), "sdf.ttf", "Play", 50, 30, true));
+    words.push_back(new Word(ofPoint(ofGetWidth()/2, ofGetHeight()/2+150, -250), "sdf.ttf", "Help", 50, 30, true));
+    words.push_back(new Word(ofPoint(ofGetWidth()/2, ofGetHeight()/2+200, -250), "sdf.ttf", "Settings", 50, 30, true));
+    
+    for (vector<Word*>::iterator it = words.begin(); it != words.end(); it++) {
+        (*it)->setup();
+    }
+    
 
 
 
@@ -35,12 +47,13 @@ void MainMenu::update(){
 }
 
 void MainMenu::draw(){
-    background.draw(0,0, ofGetWidth(), ofGetHeight());
+
     ofSetColor(255, 0, 0);
     ofNoFill();
-    ofRect(260, 530, 100, 50);
-    ofRect(260, 600, 100, 50);
-    ofRect(240, 680, 150, 50);
+    for (vector<Word*>::iterator it = words.begin(); it != words.end(); it++) {
+        (*it)->draw();
+    }
+    
 }
 
 void MainMenu::touchCancelled(ofTouchEventArgs &touch){
@@ -55,7 +68,7 @@ void MainMenu::touchDoubleTap(ofTouchEventArgs &touch){
 void MainMenu::touchDown(ofTouchEventArgs &touch){
 
     
-
+    
 }
 
 void MainMenu::touchMoved(ofTouchEventArgs &touch){
@@ -63,18 +76,22 @@ void MainMenu::touchMoved(ofTouchEventArgs &touch){
 }
 
 void MainMenu::touchUp(ofTouchEventArgs &touch){
-        cout<<touch.x<<" "<<touch.y<<endl;
-
-        for (int i =0; i<buttons.size(); i++) {
-            if(buttons[i].contains(ofVec2f(touch.x, touch.y))){
+    cout<<touch.x<<" "<<touch.y<<endl;
+    
+    
+    int i = 0;
+    for (vector<Word*>::iterator it = words.begin(); it != words.end(); it++) {
+        if ((*it)->getIsButton()) {
+            if((*it)->getButton()->contains(ofVec2f(touch.x, touch.y))){
                 testApp* app = (testApp*)ofGetAppPtr();
-                cout<<i<<endl;
+                
                 switch (i) {
                         
                     case 0:
-                        
+                        //TODO: FIGURE OUT WHERE WE DELETE THE SCREENS THAT CALL OTHER DESTRUCTORS
                         app->screen = &app->levelSelector;
                         app->screen->setup();
+//                        delete this;
                         break;
                         
                     case 1:
@@ -91,11 +108,12 @@ void MainMenu::touchUp(ofTouchEventArgs &touch){
                     default:
                         break;
                 }
-                
             }
-            
+            i++;
         }
-
-
+        
+    }
+    
+    
     
 }
