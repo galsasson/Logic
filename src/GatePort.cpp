@@ -21,6 +21,11 @@ GatePort::GatePort(Gate *parent, ofVec2f p, GatePortType t)
     wire = NULL;
 }
 
+GatePort::~GatePort()
+{
+//    cout<<"GatePort: deleted\n";
+}
+
 void GatePort::connect(Wire *w)
 {
     wire = w;

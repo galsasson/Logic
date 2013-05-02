@@ -9,6 +9,43 @@
 #include "Gate.h"
 #include "Wire.h"
 
+Gate::~Gate()
+{
+    vector<GatePort*>::iterator it = inputsLeft.begin();
+    while (it != inputsLeft.end())
+    {
+        delete *it;
+        it++;
+    }
+    
+    it = inputsRight.begin();
+    while (it != inputsRight.end())
+    {
+        delete *it;
+        it++;
+    }
+    
+    it = inputsTop.begin();
+    while (it != inputsTop.end())
+    {
+        delete *it;
+        it++;
+    }
+    
+    vector<vector<GatePort*> >::iterator vit = outputs.begin();
+    while (vit != outputs.end()) {
+        it = (*vit).begin();
+        while (it != (*vit).end())
+        {
+            delete *it;
+            it++;
+        }
+        vit++;
+    }
+    
+//    cout<<"Gate: deleted\n";
+}
+
 bool Gate::connectToInputs(vector<Wire*> wires, GatePortType type)
 {
     return false;

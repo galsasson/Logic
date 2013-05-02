@@ -43,6 +43,8 @@ public:
     int portsNum;
     bool aboutToDelete;
     
+    ~Gate();
+    
     virtual void loadResources();
     virtual bool connectToInputs(vector<Wire*> wires, GatePortType type);
     virtual bool connectToOutputs(vector<Wire*> wires);

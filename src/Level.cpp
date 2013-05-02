@@ -171,6 +171,7 @@ void Level::connect(Gate* g1, Gate* g2, GatePortType to)
 
 void Level::disconnectWires(vector<Wire *> toRemove)
 {
+    // disconnect the wires from the components
     for (int r=0; r<toRemove.size(); r++)
     {
         GatePort *inGP = toRemove[r]->input;
@@ -184,6 +185,11 @@ void Level::disconnectWires(vector<Wire *> toRemove)
                 wires.erase(wires.begin()+i);
         }
     }
+    
+    // delete the wires themselves
+    for (vector<Wire*>::iterator it = toRemove.begin(); it != toRemove.end(); it++){
+        delete *it;
+    }
 }
 
 void Level::removeGate(Gate *gate)
@@ -194,11 +200,15 @@ void Level::removeGate(Gate *gate)
     disconnectWires(gate->getWires(GATEPORT_INPUTRIGHT));
     disconnectWires(gate->getWires(GATEPORT_OUTPUT));
     
+    // remove this gate from the gates list
     for (int i=0; i<gates.size(); i++)
     {
         if (gates[i] == gate)
             gates.erase(gates.begin()+i);
     }
+    
+    // delete the gate
+    delete gate;
 }
 
 void Level::emitSignal()

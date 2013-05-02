@@ -33,6 +33,7 @@ private:
     
 public:
     GatePort(Gate *parent, ofVec2f p, GatePortType t);
+    ~GatePort();
 
     void connect(Wire *w);
     void reconnect();
