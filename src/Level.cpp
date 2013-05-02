@@ -29,45 +29,18 @@ Level::Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes
     portsNum = input1.size();
     
     elecPingPong = new PingPong(); 
-    elecPingPong->setup(640, 960);   
-//    vector<EState> s1;
-//    s1.push_back(HIGH);
-//    s1.push_back(LOW);
-//    s1.push_back(HIGH);
-//    
-//    vector<EState> s2;
-//    s2.push_back(HIGH);
-//    s2.push_back(HIGH);
-//    s2.push_back(LOW);
-//    
-    Source *src1 = new Source(ofVec2f(160, 40), input1);
-    Source *src2 = new Source(ofVec2f(480, 40), input2);
-//    And *and1 = new And(ofVec2f(500, 250), 3);
-//    Not *not1 = new Not(ofVec2f(480, 420), 3);
-//    Or *or1 = new Or(ofVec2f(150, 300), 3);
-//    And *and2 = new And(ofVec2f(320, 550), 3);
-    result = new Result(ofVec2f(320, 800), expRes);
+    elecPingPong->setup(ofGetWidth(), ofGetHeight());   
+
+    Source *src1 = new Source(ofVec2f(ofGetWidth()/2-100, 40), input1);
+    Source *src2 = new Source(ofVec2f(ofGetWidth()/2+100, 40), input2);
+
+    result = new Result(ofVec2f(ofGetWidth()/2, ofGetHeight()-150), expRes);
 
     gates.push_back(src1);
     gates.push_back(src2);
-//    gates.push_back(and1);
-//    gates.push_back(not1);
-//    gates.push_back(or1);
-//    gates.push_back(and2);
     gates.push_back(result);
-//    
-//    connect(src1, and1, GATEPORT_INPUTLEFT);
-//    connect(src2, and1, GATEPORT_INPUTRIGHT);
-//    connect(and1, not1, GATEPORT_INPUTTOP);
-//    connect(not1, and2, GATEPORT_INPUTRIGHT);
-//    connect(src1, or1, GATEPORT_INPUTLEFT);
-//    connect(src2, or1, GATEPORT_INPUTRIGHT);
-//    connect(or1, and2, GATEPORT_INPUTLEFT);
-//    connect(and2, result, GATEPORT_INPUTTOP);
-    
-//    getAndSetWireLengthsAndSteps();
     // Inventory
-    inventory = new Inventory(ofVec2f(0, 860));
+    inventory = new Inventory(ofVec2f(0, ofGetHeight()-100));
     inventory->addIcon(new InventoryIcon(INVITEM_AND));
     inventory->addIcon(new InventoryIcon(INVITEM_OR));
     inventory->addIcon(new InventoryIcon(INVITEM_NOT));
@@ -208,6 +181,21 @@ void Level::disconnectWires(vector<Wire *> toRemove)
     }
 }
 
+void Level::removeGate(Gate *gate)
+{
+    // first, lets delete the wires connected to that gate
+    disconnectWires(gate->getWires(GATEPORT_INPUTLEFT));
+    disconnectWires(gate->getWires(GATEPORT_INPUTTOP));
+    disconnectWires(gate->getWires(GATEPORT_INPUTRIGHT));
+    disconnectWires(gate->getWires(GATEPORT_OUTPUT));
+    
+    for (int i=0; i<gates.size(); i++)
+    {
+        if (gates[i] == gate)
+            gates.erase(gates.begin()+i);
+    }
+}
+
 void Level::emitSignal()
 {
     Source *s = (Source*)gates[0];
@@ -248,7 +236,7 @@ void Level::touchDown(ofTouchEventArgs & touch)
     if (touch.numTouches == 1)
     {
         // see if the user touch inventory icon
-        InventoryIcon *icon = inventory->contains(ofVec2f(touch.x, touch.y));
+        InventoryIcon *icon = inventory->getIcon(ofVec2f(touch.x, touch.y));
         if (icon != NULL)
         {
             if (icon->type == INVITEM_AND)
@@ -372,6 +360,13 @@ void Level::touchMoved(ofTouchEventArgs & touch)
     if (currentGate)
     {
         currentGate->setPosition(ofVec2f(touch.x, touch.y));
+        
+        if (inventory->contains(ofVec2f(touch.x, touch.y)))
+        {
+            currentGate->aboutToDelete = true;
+        }
+        else
+            currentGate->aboutToDelete = false;
     }
 }
 
@@ -380,8 +375,17 @@ void Level::touchUp(ofTouchEventArgs & touch)
     cout << "touchUp in Level " << touch.x << " " << touch.y << endl;
     if (currentGate)
     {
-        currentGate->putDown();
-        currentGate = NULL;
+        if (inventory->contains(ofVec2f(touch.x, touch.y)))
+        {
+            // delete this gate, its on the inventory
+            removeGate(currentGate);
+            currentGate = NULL;
+        }
+        else {
+            // just put down the gate
+            currentGate->putDown();
+            currentGate = NULL;
+        }
     }
     
     if (conGate1)

@@ -41,6 +41,7 @@ protected:
 public:
     // how many ports in this gate
     int portsNum;
+    bool aboutToDelete;
     
     virtual void loadResources();
     virtual bool connectToInputs(vector<Wire*> wires, GatePortType type);

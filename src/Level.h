@@ -19,7 +19,6 @@
 #include "Electricity.h"
 class Level
 {
-//    vector<Gate*> gates;
     vector<Wire*> wires;
     vector<Electricity*> electricity;
     
@@ -61,6 +60,7 @@ public:
 private:
     void connect(Gate* g1, Gate* g2, GatePortType to);
     void disconnectWires(vector<Wire*> toRemove);
+    void removeGate(Gate *gate);
     
     void releaseHoldPads();
 };

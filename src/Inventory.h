@@ -23,7 +23,8 @@ public:
     
     void addIcon(InventoryIcon *icon);
     
-    InventoryIcon* contains(ofVec2f p);
+    bool contains(ofVec2f p);
+    InventoryIcon* getIcon(ofVec2f p);
     ofVec2f getWorldPosition();
         vector<InventoryIcon*> icons;
     void draw();

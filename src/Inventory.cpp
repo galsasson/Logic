@@ -13,7 +13,7 @@ Inventory::Inventory(ofVec2f p)
 {
     pos = p;
     
-    size = ofVec2f(540, 100);
+    size = ofVec2f(ofGetWidth()-100, 100);
 }
 
 
@@ -32,7 +32,18 @@ void Inventory::addIcon(InventoryIcon *icon)
     icons.push_back(icon);
 }
 
-InventoryIcon* Inventory::contains(ofVec2f p)
+bool Inventory::contains(ofVec2f p)
+{
+    if (p.x > pos.x && p.y > pos.y &&
+        p.x < pos.x+size.x && p.y < pos.y+size.y)
+    {
+        return true;
+    }
+    
+    return false;
+}
+
+InventoryIcon* Inventory::getIcon(ofVec2f p)
 {
     for (int i=0; i<icons.size(); i++)
     {

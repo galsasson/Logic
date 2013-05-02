@@ -108,7 +108,8 @@ vector<Wire*> Not::getWires(GatePortType t)
     {
         for (int i=0; i<portsNum; i++)
         {
-            wires.push_back(inputsTop[i]->wire);
+            if (inputsTop[i]->wire != NULL)
+                wires.push_back(inputsTop[i]->wire);
         }
     }
     else if (t == GATEPORT_OUTPUT)
@@ -117,7 +118,8 @@ vector<Wire*> Not::getWires(GatePortType t)
         {
             for (int i=0; i<portsNum; i++)
             {
-                wires.push_back(outputs[j][i]->wire);
+                if (outputs[j][i]->wire != NULL)
+                    wires.push_back(outputs[j][i]->wire);
             }
         }
     }
@@ -343,6 +345,7 @@ void Not::draw()
         ofScale(1.4f, 1.4f);
     
     ofVec2f totalSize = ofVec2f(portsNum*size.x, (portsNum+1)*size.y);
+    ofVec2f halfSize = totalSize/2;
     ofSetColor(0, 0, 0, 100);
     ofFill();
     ofRect(-totalSize.x/2+10, -totalSize.y/2+10, totalSize.x, totalSize.y);
@@ -404,6 +407,13 @@ void Not::draw()
     for (int i=0; i<2; i++)
     {
         pads[i].draw();
+    }
+
+    if (aboutToDelete)
+    {
+        ofFill();
+        ofSetColor(255, 0, 0, 100);
+        ofRectRounded(-halfSize, totalSize.x, totalSize.y, 5);
     }
     
     ofPopMatrix();

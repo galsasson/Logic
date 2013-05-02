@@ -124,14 +124,16 @@ vector<Wire*> And::getWires(GatePortType t)
     {
         for (int i=0; i<portsNum; i++)
         {
-            wires.push_back(inputsLeft[i]->wire);
+            if (inputsLeft[i]->wire != NULL)
+                wires.push_back(inputsLeft[i]->wire);
         }
     }
     else if (t == GATEPORT_INPUTRIGHT)
     {
         for (int i=0; i<portsNum; i++)
         {
-            wires.push_back(inputsRight[i]->wire);
+            if (inputsRight[i]->wire != NULL)
+                wires.push_back(inputsRight[i]->wire);
         }
     }
     else if (t == GATEPORT_OUTPUT)
@@ -140,7 +142,8 @@ vector<Wire*> And::getWires(GatePortType t)
         {
             for (int i=0; i<portsNum; i++)
             {
-                wires.push_back(outputs[j][i]->wire);
+                if (outputs[j][i]->wire != NULL)
+                    wires.push_back(outputs[j][i]->wire);
             }
         }
     }
@@ -425,7 +428,6 @@ void And::draw()
     ofRectRounded(-halfSize, totalSize.x, totalSize.y, 5);
     ofSetColor(200);
     ofRectRounded(-halfSize, totalSize.x, totalSize.y-squareSize.y, 5);
-
     
     /* draw colored squares inside the gate that respresent the ports status */
     ofFill();
@@ -496,6 +498,13 @@ void And::draw()
     for (int i=0; i<3; i++)
     {
         pads[i].draw();
+    }
+    
+    if (aboutToDelete)
+    {
+        ofFill();
+        ofSetColor(255, 0, 0, 100);
+        ofRectRounded(-halfSize, totalSize.x, totalSize.y, 5);
     }
     
     ofPopMatrix();
