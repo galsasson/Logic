@@ -65,7 +65,7 @@ void Inventory::draw()
     ofTranslate(pos);
     
     ofFill();
-    ofSetColor(ColorScheme::getColor(4)*0.2);
+    ofSetColor(ColorScheme::getInventoryBackground());
     ofRect(0, 0, size.x, size.y);
     
     for (int i=0; i<icons.size(); i++)

@@ -17,6 +17,7 @@
 #include "Not.h"
 #include "ColorScheme.h"
 #include "InventoryIcon.h"
+#include "Button.h"
 
 Level::Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes)
 {
@@ -31,19 +32,23 @@ Level::Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes
     elecPingPong = new PingPong(); 
     elecPingPong->setup(ofGetWidth(), ofGetHeight());   
 
+    // build sources and result
     Source *src1 = new Source(ofVec2f(ofGetWidth()/2-100, 40), input1);
     Source *src2 = new Source(ofVec2f(ofGetWidth()/2+100, 40), input2);
-
     result = new Result(ofVec2f(ofGetWidth()/2, ofGetHeight()-150), expRes);
 
     gates.push_back(src1);
     gates.push_back(src2);
     gates.push_back(result);
-    // Inventory
+    
+    // build inventory
     inventory = new Inventory(ofVec2f(0, ofGetHeight()-100));
     inventory->addIcon(new InventoryIcon(INVITEM_AND));
     inventory->addIcon(new InventoryIcon(INVITEM_OR));
     inventory->addIcon(new InventoryIcon(INVITEM_NOT));
+    
+    goButton = new Button();
+    goButton->setup(ofRectangle(0, 0, 100, 100), ofVec2f(ofGetWidth()-100, ofGetHeight()-100));
     
     //flag for FBO's and electricity
     drawElectricity = false;
@@ -117,8 +122,8 @@ void Level::draw()
         glPopMatrix();
     }
     
-    
     inventory->draw();
+    goButton->draw();
     
     if (currentGate)
         currentGate->draw();
@@ -347,7 +352,7 @@ void Level::touchDown(ofTouchEventArgs & touch)
         releaseHoldPads();
     }
 
-    if (touch.numTouches == 3)
+    if (goButton->contains(ofVec2f(touch.x, touch.y)))
     {
         getAndSetWireLengthsAndSteps();
         emitSignal();

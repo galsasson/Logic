@@ -36,3 +36,8 @@ ofColor ColorScheme::getWireOff()
 {
     return ofColor(80);
 }
+
+ofColor ColorScheme::getInventoryBackground()
+{
+    return ofColor(50);
+}

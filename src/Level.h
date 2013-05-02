@@ -17,6 +17,8 @@
 #include "Inventory.h"
 #include "PingPong.h"
 #include "Electricity.h"
+#include "Button.h"
+
 class Level
 {
     vector<Wire*> wires;
@@ -32,6 +34,8 @@ class Level
     GatePortType conType1;
     Gate *conGate2;
     GatePortType conType2;
+    
+    Button *goButton;
     
     int portsNum;
 

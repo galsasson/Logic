@@ -19,6 +19,7 @@ public:
     static ofColor getColor(int index);
     static ofColor getWireOn();
     static ofColor getWireOff();
+    static ofColor getInventoryBackground();
 };
 
 #endif /* defined(__Logic__ColorScheme__) */
