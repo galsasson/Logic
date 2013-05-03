@@ -9,12 +9,10 @@
 #include "GameScreen.h"
 #include "testApp.h"
 
-GameScreen::GameScreen(){
-
-    
+GameScreen::GameScreen(int levelID){
 	
     level = NULL;
-    
+    this->levelID = levelID;
     
     ofEnableAlphaBlending();
     //ofSetFrameRate(60);
@@ -23,7 +21,7 @@ GameScreen::GameScreen(){
 
 }
 
-void GameScreen::setup(int levelID)
+void GameScreen::setup()
 {
     vector<EState> i1;
     vector<EState> i2;

@@ -31,17 +31,22 @@ void PingPong::setup(int width, int height)
     pong = new ofFbo();
     ping->allocate(width, height);
     pong->allocate(width, height);
-    clearedFbo = false;
     
     this->width = width;
     this->height = height;
     
-    if (!clearedFbo) {
-        pong->begin();
-        ofClear(0, 0, 0, 0);
-        pong->end();
-        clearedFbo = true;
-    }
+    clearFBO();
+}
+
+void PingPong::clearFBO()
+{
+    pong->begin();
+    ofClear(0, 0, 0, 0);
+    pong->end();
+    
+    ping->begin();
+    ofClear(0, 0, 0, 0);
+    ping->end();
 }
 
 void PingPong::cleanup()
@@ -82,7 +87,7 @@ void PingPong::renderToFbo(vector<Wire*>* w)
         
         ofSetColor(ColorScheme::getWireOn());
         for (vector<Wire*>::iterator it = (*w).begin(); it != (*w).end(); it++){
-            (*it)->draw();
+//            (*it)->draw();
             (*it)->getElectricity()->draw();
         }
     }

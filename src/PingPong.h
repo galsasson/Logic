@@ -20,7 +20,6 @@ class PingPong {
     
     void cleanup();
     
-    bool clearedFbo;
     GLfloat width;
     GLfloat height;
     
@@ -30,8 +29,10 @@ public:
     
     PingPong();
     ~PingPong();
+    
     void setup(int width, int height);
     void renderToFbo(vector<Wire*>* w);
+    void clearFBO();
     //For the lights on the gates, we'll haze
     //the shit out of them
     void renderToFbo(Gate* g);

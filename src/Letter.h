@@ -19,6 +19,7 @@ public:
     ofMesh side;
     
     float transformHeight;
+    bool makeDepth;
     
     void setup(ofPath letter, float depth, float height);
     void draw();

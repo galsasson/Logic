@@ -30,12 +30,11 @@ class testApp : public ofxiPhoneApp{
         void gotFocus();
         void gotMemoryWarning();
         void deviceOrientationChanged(int newOrientation);
+    
+    void selectScreen(string word, MainMenu* menu);
+    void selectScreen(string word, LevelSelector* menu);
 
     Screen* screen;
-    MainMenu mainMenu;
-    LevelSelector levelSelector;
-    GameScreen gameScreen;
-    
 };
 
 

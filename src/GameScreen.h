@@ -14,10 +14,10 @@
 #include <iostream>
 class GameScreen:public Screen{
 public:
-    GameScreen();
+    GameScreen(int levelID);
     Level *level;
     
-    void setup(int levelID);
+    void setup();
     void update();
     void draw();
     
@@ -26,6 +26,8 @@ public:
     void touchUp(ofTouchEventArgs & touch);
     void touchDoubleTap(ofTouchEventArgs & touch);
     void touchCancelled(ofTouchEventArgs & touch);
+    
+    int levelID;
     
 };
 #endif /* defined(__Logic__GameScreen__) */

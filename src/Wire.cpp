@@ -33,7 +33,6 @@ Wire::Wire()
 
 Wire::~Wire()
 {
-//    cout<<"Wire: deleted\n";
 }
 
 //This is so we can check up the line fast

@@ -12,37 +12,43 @@
 Button::Button()
 {
     pressed = false;
+    navigate = false;
 }
 
 Button::~Button()
 {
     
 }
-void Button::setup(ofRectangle rectangle, ofVec2f pos)
+void Button::setup(ofRectangle rectangle, ofPoint trans)
 {
     this->rectangle = rectangle;
-    this->position = pos;
-    cout << "x is " << position.x << " and y is "<< position.y << " which makes right side " << position.x+this->rectangle.width << " and the bottom side is " << position.y+this->rectangle.height << endl;
+    this->transform = trans;
 }
 
 void Button::draw()
 {
-    
-//            ofTranslate(rectangle.x-(rectangle.getWidth()/2.0), rectangle.y-(rectangle.getHeight()/2)-125, 0);
-            
-            ofRect(position.x, position.y, rectangle.getWidth(), rectangle.getHeight());
-            
-       
-    
-    
+    glPushMatrix();
+        ofTranslate(transform.x, transform.y, 0);
+        ofRect(0, 0, rectangle.getWidth(),rectangle.getHeight());
+    glPopMatrix();
+}
+
+void Button::activateNavigation(bool navigate)
+{
+    this->navigate = navigate;
+}
+
+bool Button::getNavigate()
+{
+    return navigate;
 }
 
 bool Button::contains(ofVec2f p)
 {
-    cout << "Position incoming " << p << " and the position of the Bounding box is " << position << " and Bounding box width is " << position.x+rectangle.getWidth() << " and Bounding box height is " << position.y+rectangle.getHeight() << endl;
     
-    if (p.x>position.x && p.x<position.x+rectangle.getWidth() && p.y<position.y+rectangle.getHeight() && p.y>position.y)
+    if (p.x>transform.x && p.x<transform.x+rectangle.getWidth() && p.y<transform.y+rectangle.getHeight() && p.y>transform.y)
     {
+       
         pressed = true;
         return true;
     }

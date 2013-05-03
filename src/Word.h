@@ -24,15 +24,23 @@ class Word {
     int fontsize;
     Button* button;
     
+    int zAnimation;
+    int animationAmount;
     bool isButton;
+    
+
     
 public:
     
     Word(ofPoint position, string font, string word, float depth, int fontsize, bool button);
     ~Word();
     
+    void animate();
+
     void setup();
     void draw();
+    
+    string getWord();
     
     bool getIsButton();
     Button* getButton();

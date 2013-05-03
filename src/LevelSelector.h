@@ -25,5 +25,9 @@ public:
     void touchDoubleTap(ofTouchEventArgs & touch);
     void touchCancelled(ofTouchEventArgs & touch);
     
+    void drawElements();
+    
+    void buttonAnimandNavi();
+    
 };
 #endif /* defined(__Logic__LevelSelector__) */

@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include "ofMain.h"
-#include "Letter.h"
+#include "Word.h"
 
 class Screen{
 public:
@@ -31,9 +31,21 @@ public:
     virtual void touchDoubleTap(ofTouchEventArgs & touch);
     virtual void touchCancelled(ofTouchEventArgs & touch);
     
-    ofImage background;
+    virtual void lightSetup();
+    virtual void lightUpdate();
+    virtual void lightDraw();
+    virtual void drawElements();
     
-    ofTrueTypeFont font;
+    virtual bool getIsSetup();
+    
+protected:    
+    bool isSetup;
+    ofLight light;
+	ofVec3f center;
+    ofColor lightColor;
+    float colorHue;
+    vector<Word*> words;
+    bool touchedButton;
 
 };
 #endif /* defined(__Logic__Screen__) */

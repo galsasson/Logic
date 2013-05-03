@@ -13,17 +13,23 @@
 #include  "ofMain.h"
 class Button{
     
-    bool pressed;
+    
     
 public:
     Button();
     ~Button();
-    void setup(ofRectangle rectangle, ofVec2f pos);
+    void setup(ofRectangle rectangle, ofPoint trans);
     
     ofRectangle rectangle;
-    ofPoint position;
+    
+    ofPoint transform;
+    bool pressed;
+    bool navigate;
     
     bool contains(ofVec2f p);
     void draw();
+    void activateNavigation(bool navigate);
+    bool getNavigate();
+    
 };
 #endif /* defined(__Logic__Button__) */

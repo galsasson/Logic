@@ -17,6 +17,8 @@ Word::Word(ofPoint position, string font, string word, float depth, int fontsize
     this->depth = depth;
     this->fontsize = fontsize;
     
+    this->animationAmount = -15;
+    
     //Whether we want to use a button making it false will make the pointer null
     isButton = button;
     if (isButton) {
@@ -24,13 +26,15 @@ Word::Word(ofPoint position, string font, string word, float depth, int fontsize
     } else {
         this->button = NULL;
     }
-//    cout << "words position.x is " << position.x << " and words y is " << position.y << endl;
+    
+    transform = ofPoint(0,0,0);
+    zAnimation = 0;
 }
 
 Word::~Word()
 {
     //destructor for all words called through the delete in the menus
-    cout << "I'm calling the word " << word << "'s destructor" << endl;
+    
     for (vector<Letter*>::iterator it = letters.begin(); it != letters.end(); it++) {
         delete *it;
     }
@@ -38,6 +42,11 @@ Word::~Word()
         delete button;
     }
     
+}
+
+string Word::getWord()
+{
+    return word;
 }
 
 void Word::setup()
@@ -58,10 +67,11 @@ void Word::setup()
     this->font.setLineHeight(fontsize+10);
     
     //creating the overall transform point for the draw and also the button position
-    
-    this->transform = ofPoint(position.x-(getBoundingBox().getWidth()/2.0), position.y-(getBoundingBox().getHeight()/2)-100, 0);
-    
+
+    this->transform = ofPoint(position.x-(getBoundingBox().getWidth()/2.0), position.y-(getBoundingBox().getHeight()/2)-100, position.z);
+
     //if it's a button setup the button
+    //the transform gives the position in screen space
     
     if (isButton) {
         this->button->setup(getBoundingBox(), this->transform);
@@ -75,10 +85,24 @@ void Word::setup()
     for(int i=0; i<letterPaths.size(); i++)
     {
         Letter* l = new Letter();
-        l->setup(letterPaths[i], 40, getBoundingBox().height);
+        l->setup(letterPaths[i], this->depth, getBoundingBox().height);
         letters.push_back(l);
     }
 
+}
+
+void Word::animate()
+{
+    if (zAnimation < -100) {
+        animationAmount = 15;
+    } else if (zAnimation > 100) {
+        animationAmount = -15;
+    }
+    zAnimation+=animationAmount;
+    
+    if (zAnimation > 1) {
+        button->activateNavigation(true);
+    }
 }
 
 void Word::draw()
@@ -92,13 +116,10 @@ void Word::draw()
             //using the transform that was created above to make sure it is directly in the middle
             //we're transforming by half the width and subtracting that from the position we'd like
             //it to be.
-            ofTranslate(this->transform);
-//            ofCircle(0, 0, 20);
+            ofTranslate(this->transform.x, this->transform.y, this->transform.z+zAnimation);
             
             //for debug of button, uncomment this.
-//            if (isButton) {
-//                button->draw();
-//            }
+            
             
             //drawing letters inside this transform
             for(vector<Letter*>::iterator it = letters.begin(); it != letters.end(); it++)
@@ -110,7 +131,9 @@ void Word::draw()
         }
         ofPopMatrix();
     }
-    
+//    if (isButton) {
+//        button->draw();
+//    }
     glDisable(GL_DEPTH_TEST);
 }
 

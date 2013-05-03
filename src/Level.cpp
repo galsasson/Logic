@@ -70,19 +70,25 @@ void Level::getAndSetWireLengthsAndSteps()
         totalLength += (*it)->getPathLength();
     }
     
-    
-    float highest = 0.0f;
+    //THIS IS TO DRAW THEM ALL AT THE SAME SPEED
     for (it = wires.begin(); it != wires.end(); it++) {
         float temp = (*it)->getPathLength()/totalLength;
-        if (temp > highest) {
-            highest = temp;
-        }
+        (*it)->setStep(temp);
     }
     
-    it = wires.begin();
-    for (; it != wires.end(); it++) {
-        (*it)->setStep(highest);
-    }
+    //THIS IS TO DRAW THEM ALL AT THE FASTEST SPEED
+//    float highest = 0.0f;
+//    for (it = wires.begin(); it != wires.end(); it++) {
+//        float temp = (*it)->getPathLength()/totalLength;
+//        if (temp > highest) {
+//            highest = temp;
+//        }
+//    }
+//    
+//    
+//    for (it = wires.begin(); it != wires.end(); it++) {
+//        (*it)->setStep(highest);
+//    }
 }
 
 void Level::setup()
@@ -115,6 +121,7 @@ void Level::draw()
     {
         gates[i]->draw();
     }
+    
     if (drawElectricity) {
         glPushMatrix();
             ofSetColor(255);
@@ -432,5 +439,6 @@ void Level::touchUp(ofTouchEventArgs & touch)
     
     if (drawElectricity) {
         drawElectricity = false;
+        elecPingPong->clearFBO();
     }
 }
