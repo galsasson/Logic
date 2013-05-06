@@ -43,12 +43,15 @@ class Level
     
     bool drawElectricity;
     
+    bool emittingSignal;
+    
 public:
     
     Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes);
     void setup();
     
     void emitSignal();
+    void resetSignal();
     
     void update();
     void draw();

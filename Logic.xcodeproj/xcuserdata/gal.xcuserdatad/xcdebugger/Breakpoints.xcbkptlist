@@ -12,7 +12,9 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "171"
-         endingLineNumber = "171">
+         endingLineNumber = "171"
+         landmarkName = "Wire::getPathLength()"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -23,7 +25,20 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "289"
-         endingLineNumber = "289">
+         endingLineNumber = "289"
+         landmarkName = "Not::pickUp()"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "src/Source.cpp"
+         timestampString = "389564128.268177"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "269"
+         endingLineNumber = "269">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

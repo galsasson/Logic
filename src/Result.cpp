@@ -18,8 +18,9 @@ Result::Result(ofVec2f p, vector<EState> expRes)
     portsNum = expRes.size();
     expectedResult = expRes;
     
-    gotResult = false;
+    isCorrect = false;
     resultSet = false;
+    showResultCounter = 0;
     size = ofVec2f(25,25);
     totalSize = ofVec2f(300, 100);
     
@@ -181,6 +182,42 @@ void Result::oscilateInputPads(bool on)
         pads[0].oscilate(on);
 }
 
+bool Result::isDataIn()
+{
+    // check if we have result
+    for (int i=0; i<portsNum; i++)
+    {
+        if (inputsTop[i]->getState() == FLOATING)
+        {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+bool Result::haveCorrectResult()
+{
+    vector<EState> res = getResult();
+    for (int i=0; i<res.size(); i++)
+    {
+        if (res[i] != expectedResult[i])
+        {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+void Result::startShowingResult(bool correct)
+{
+    resultSet = true;
+    isCorrect = correct;
+    
+    showResultCounter = PI*4;
+}
+
 
 void Result::reset()
 {
@@ -188,11 +225,25 @@ void Result::reset()
     {
         inputsTop[i]->reset();
     }
+    
+    resultSet = false;
+    isCorrect = false;
+    showResultCounter = 0;
 }
 
 void Result::update()
 {
     pads[0].update();
+    
+    // we are currently showing the result
+    if (showResultCounter>0)
+    {
+        showResultCounter -= 0.3;
+        if (showResultCounter <= 0)
+        {
+            showResultCounter = 0;
+        }
+    }
 }
 
 void Result::draw()
@@ -230,6 +281,22 @@ void Result::draw()
     }
     
     pads[0].draw();
+    
+    // draw the result bounding box (green / red)
+    if (resultSet)
+    {
+        if (isCorrect)
+        {
+            ofSetColor(0, 255, 0, abs(cos(showResultCounter))*255);
+        }
+        else
+        {
+            ofSetColor(255, 0, 0, abs(cos(showResultCounter))*255);
+        }
+        ofNoFill();
+        ofSetLineWidth(8);
+        ofRectRounded(-totalSize/2, totalSize.x, totalSize.y, 5);
+    }
     
     ofPopMatrix();
 }

@@ -53,6 +53,8 @@ Level::Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes
     //flag for FBO's and electricity
     drawElectricity = false;
     
+    emittingSignal = false;
+    
     vector<EState> res = result->getResult();
     for (int i=0; i<res.size(); i++)
     {
@@ -111,22 +113,18 @@ void Level::draw()
     ofBackground(ColorScheme::getColor(4)*0.15);
     
     int i;
+    if (drawElectricity) {
+        elecPingPong->getFbo().draw(0, 0);
+    }
+    
     for (i=0 ; i<wires.size(); i++)
     {
-        
         wires[i]->draw();
     }
 
     for (i=0 ; i<gates.size(); i++)
     {
         gates[i]->draw();
-    }
-    
-    if (drawElectricity) {
-        glPushMatrix();
-            ofSetColor(255);
-            elecPingPong->getFbo().draw(0, 0);
-        glPopMatrix();
     }
     
     inventory->draw();
@@ -153,6 +151,28 @@ void Level::update()
     //this decides whether to draw stuff
     if (drawElectricity) {
         elecPingPong->renderToFbo(&wires);
+    }
+    
+    // if electricity is flowing now
+    if (emittingSignal)
+    {
+        // if electricity did not reach yet the result gate
+        if (!result->resultSet)
+        {
+            if (result->isDataIn())
+            {
+                // now the electricity got to the result gate, show the result
+                result->startShowingResult(result->haveCorrectResult());
+            }
+        }
+        else
+        {
+            // we are showing the result already
+            if (result->showResultCounter == 0)
+            {
+                resetSignal();
+            }
+        }
     }
     
 }
@@ -220,13 +240,48 @@ void Level::removeGate(Gate *gate)
 
 void Level::emitSignal()
 {
+    // electricity drawing stuff
+    getAndSetWireLengthsAndSteps();
+    drawElectricity = true;
+
+    // emit signal from sources
     Source *s = (Source*)gates[0];
     s->emitSignal();
     
     s = (Source*)gates[1];
     s->emitSignal();
     
+    // check if the result gate is getting a signal
+    vector<EState> res = result->getResult();
+    if (res[0] == FLOATING)
+    {
+        // the circuit is not connected all the way, result doesn't get a signal
+        result->startShowingResult(false);
+    }
+    
+    emittingSignal = true;
 }
+
+void Level::resetSignal()
+{
+    for (int i=0; i<gates.size(); i++)
+    {
+        gates[i]->reset();
+    }
+    
+    for (int i=0; i<wires.size(); i++)
+    {
+        wires[i]->reset();
+    }
+
+    if (drawElectricity) {
+        drawElectricity = false;
+        elecPingPong->clearFBO();
+    }
+    
+    emittingSignal = false;
+}
+
 
 void Level::releaseHoldPads()
 {
@@ -250,6 +305,9 @@ void Level::releaseHoldPads()
             gates[i]->oscilateOutputPads(false);
         }
     }
+    
+    conGate1 = NULL;
+    conGate2 = NULL;
 }
 
 void Level::touchDown(ofTouchEventArgs & touch)
@@ -371,9 +429,7 @@ void Level::touchDown(ofTouchEventArgs & touch)
 
     if (goButton->contains(ofVec2f(touch.x, touch.y)))
     {
-        getAndSetWireLengthsAndSteps();
         emitSignal();
-        drawElectricity = true;
     }
 }
 
@@ -412,10 +468,6 @@ void Level::touchUp(ofTouchEventArgs & touch)
     
     if (conGate1)
     {
-        if (conGate1->isPadConnected(conType1))
-        {
-            
-        }
         conGate1->releasePad(conType1);
         conGate1->holdPad(true, conType1);
     }
@@ -424,21 +476,5 @@ void Level::touchUp(ofTouchEventArgs & touch)
     {
         conGate2->releasePad(conType2);
         conGate2->holdPad(true, conType2);
-    }
-    
-    
-    
-    for (int i=0; i<gates.size(); i++)
-    {
-        gates[i]->reset();
-    }
-    for (int i=0; i<wires.size(); i++)
-    {
-        wires[i]->reset();
-    }
-    
-    if (drawElectricity) {
-        drawElectricity = false;
-        elecPingPong->clearFBO();
     }
 }

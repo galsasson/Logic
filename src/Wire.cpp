@@ -120,47 +120,40 @@ void Wire::moveElectricity()
 
 void Wire::draw()
 {
+    ofPushMatrix();
     
-    float lengthPassed = 0;
-    // for every line in the wire path (points)
-    for (int i=1; i<points.size(); i++)
+    ofVec2f vec = points[1]-points[0];
+    float length = vec.length();
+    float atanPos = ofRadToDeg(atan2(vec.y, vec.x));
+    ofTranslate(points[0]);
+    ofRotate(atanPos);
+    
+    // draw the line off
+    ofSetColor(ColorScheme::getWireOff());
+    ofSetLineWidth(3);
+    ofLine(0, 0, length, 0);
+    
+    if (state == HIGH)
     {
-        ofPushMatrix();
-        ofVec2f vec = points[i]-points[i-1];
-        float length = vec.length();
-        float atanPos = ofRadToDeg(atan2(vec.y, vec.x));
-        ofTranslate(points[i-1]);
-        ofRotate(atanPos);
-        electricity->setTranslate(points[i-1]);
-        electricity->setRotate(atanPos);
+        // draw white line (old graphics)
+        ofSetColor(ColorScheme::getWireOn());
+        ofSetLineWidth(4);
+        ofLine(0, 0, signalPos, 0);
         
-        // draw the line off
-        ofSetColor(ColorScheme::getWireOff());
-        ofSetLineWidth(3);
-        ofLine(0, 0, length, 0);
-        
-        // draw the wire on
-        if (state == HIGH)
-        {
-            if (signalPos > lengthPassed)
-            {
-                // draw the entire wire on
-                ofSetColor(ColorScheme::getWireOn());
-                ofLine(0, 0, signalPos-lengthPassed, 0);
-                //this doesn't totally work yet
-                drawElec = true;
-                electricity->setPosition(ofVec2f(signalPos - lengthPassed, 0));
-            } else {
-                //this doesn't totally work yet
-                drawElec = false;
-            }
+        // only draw electricity if we are currently shooting a signal
+        if (shootSignal) {
+            // update the electricity position
+            electricity->setTranslate(points[0]);
+            electricity->setRotate(atanPos);
+            electricity->setPosition(ofVec2f(signalPos, 0));            
+            electricity->setDraw(true);
         }
         else {
-            
+            electricity->setDraw(false);
         }
     }
     
-    electricity->setDraw(drawElec);
+    //electricity->setDraw(drawElec);
     //        lengthPassed += length;
     ofPopMatrix();
     

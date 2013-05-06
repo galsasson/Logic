@@ -69,6 +69,7 @@ ofFbo& PingPong::getFbo()
 //write for the wire class
 void PingPong::renderToFbo(vector<Wire*>* w)
 {
+    ofPushStyle();
     ping->begin();
     {
         ofEnableBlendMode(OF_BLENDMODE_ADD);
@@ -92,7 +93,7 @@ void PingPong::renderToFbo(vector<Wire*>* w)
         }
     }
     ping->end();
-    
+    ofPopStyle();
     pong->setAnchorPercent(0.0f, 0.0f);
     
     ofFbo* temp = ping;

@@ -16,9 +16,6 @@ class Result : public Gate {
     
     vector<EState> result;
 private:
-    vector<float> wireResult;
-    bool gotResult;
-    bool resultSet;
     ofVec2f size;
     ofVec2f totalSize;
     
@@ -26,7 +23,9 @@ private:
     
 public:
     vector<EState> expectedResult;
-
+    bool resultSet;
+    bool isCorrect;
+    float showResultCounter;
 
     Result(ofVec2f p, vector<EState> expRes);
     ~Result();
@@ -54,6 +53,10 @@ public:
     void putDown();
     void oscilateInputPads(bool on);
 
+    bool isDataIn();
+    bool haveCorrectResult();
+    void startShowingResult(bool correct);
+    
     void reset();
     void update();
     void draw();

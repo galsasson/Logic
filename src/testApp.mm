@@ -15,7 +15,6 @@ void testApp::setup(){
 //    screen =&mainMenu;
     screen = new MainMenu();
     screen->setup();
-    ofSetBackgroundColor(0, 0, 0);
     
 }
 
@@ -30,7 +29,6 @@ void testApp::draw(){
     // needed to support 320x480 screen (also for the simulator)
     //ofScale(0.5, 0.5);
     screen->draw();
-    ofSetBackgroundColor(0, 0, 0);
 }
 
 //--------------------------------------------------------------
