@@ -352,13 +352,7 @@ void Not::draw()
     
     ofVec2f totalSize = ofVec2f(portsNum*size.x, (portsNum+1)*size.y);
     ofVec2f halfSize = totalSize/2;
-//    ofSetColor(0, 0, 0, 100);
-//    ofFill();
-//    ofRect(-totalSize.x/2+10, -totalSize.y/2+10, totalSize.x, totalSize.y);
-//    ofSetColor(130);
-//    ofRect(-totalSize.x/2, -totalSize.y/2, totalSize.x, totalSize.y-size.y);
-//    ofSetColor(80);
-//    ofRect(-totalSize.x/2, totalSize.y/2-size.y, totalSize.x, size.y);
+
     ofNoFill();
     for (int i=0; i<3; i++)
     {

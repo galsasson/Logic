@@ -224,11 +224,6 @@ void Source::draw()
         }
     }
 
-//    ofFill();
-//    ofSetColor(130);
-//    ofRect(-size.x*portsNum/2, -size.y/2, size.x*portsNum, size.y);
-//    ofSetColor(80);
-//    ofRect(-size.x*portsNum/2, size.y/2-30, size.x*portsNum, 30);
     ofNoFill();
     for (int i=0; i<3; i++)
     {

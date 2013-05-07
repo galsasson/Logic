@@ -420,13 +420,6 @@ void And::draw()
     
     ofVec2f totalSize = ofVec2f((portsNum+2)*squareSize.x, (portsNum+1)*squareSize.y);
     ofVec2f halfSize = totalSize/2;
-//    ofSetColor(ColorScheme::getShadowColor());
-//    ofFill();
-//    ofRect(-halfSize+10, totalSize.x, totalSize.y);
-//    ofSetColor(130);
-//    ofRect(-halfSize, totalSize.x, totalSize.y-squareSize.y);
-//    ofSetColor(80);
-//    ofRect(-halfSize.x, -halfSquareSize.y + portsNum*halfSquareSize.y, totalSize.x, squareSize.y);
 
     ofNoFill();
     for (int i=0; i<3; i++)
