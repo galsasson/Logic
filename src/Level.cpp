@@ -33,12 +33,12 @@ Level::Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes
     elecPingPong->setup(ofGetWidth(), ofGetHeight());   
 
     // build sources and result
-    Source *src1 = new Source(ofVec2f(ofGetWidth()/2-100, 40), input1);
-    Source *src2 = new Source(ofVec2f(ofGetWidth()/2+100, 40), input2);
+    s1 = new Source(ofVec2f(ofGetWidth()/2-100, 40), input1);
+    s2 = new Source(ofVec2f(ofGetWidth()/2+100, 40), input2);
     result = new Result(ofVec2f(ofGetWidth()/2, ofGetHeight()-150), expRes);
 
-    gates.push_back(src1);
-    gates.push_back(src2);
+    gates.push_back(s1);
+    gates.push_back(s2);
     gates.push_back(result);
     
     // build inventory
@@ -435,7 +435,8 @@ void Level::touchDown(ofTouchEventArgs & touch)
 
 void Level::touchMoved(ofTouchEventArgs & touch)
 {   cout << "touchMoved in Level " << touch.x << " " << touch.y << endl;
-    if (currentGate)
+    if (currentGate &&
+        currentGate != s1 && currentGate != s2 && currentGate != result)
     {
         currentGate->setPosition(ofVec2f(touch.x, touch.y));
         
@@ -453,7 +454,8 @@ void Level::touchUp(ofTouchEventArgs & touch)
     cout << "touchUp in Level " << touch.x << " " << touch.y << endl;
     if (currentGate)
     {
-        if (inventory->contains(ofVec2f(touch.x, touch.y)))
+        if (inventory->contains(ofVec2f(touch.x, touch.y)) &&
+            currentGate != s1 && currentGate != s2 && currentGate != result)
         {
             // delete this gate, its on the inventory
             removeGate(currentGate);

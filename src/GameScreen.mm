@@ -38,6 +38,17 @@ void GameScreen::setup()
             exp.push_back(HIGH);
             exp.push_back(HIGH);
             break;
+        case 1:
+            i1.push_back(HIGH);
+            i1.push_back(LOW);
+            i1.push_back(HIGH);
+            i2.push_back(LOW);
+            i2.push_back(LOW);
+            i2.push_back(HIGH);
+            exp.push_back(LOW);
+            exp.push_back(HIGH);
+            exp.push_back(HIGH);
+            break;
     }
     
     level = new Level(i1, i2, exp);

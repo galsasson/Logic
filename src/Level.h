@@ -13,6 +13,7 @@
 #include "ofMain.h"
 #include "Gate.h"
 #include "Wire.h"
+#include "Source.h"
 #include "Result.h"
 #include "Inventory.h"
 #include "PingPong.h"
@@ -24,6 +25,8 @@ class Level
     vector<Wire*> wires;
     vector<Electricity*> electricity;
     
+    Source* s1;
+    Source* s2;
     Result* result;
     
     ofImage background;

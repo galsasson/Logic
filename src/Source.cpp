@@ -68,7 +68,6 @@ bool Source::connectToOutputs(vector<Wire*> wires)
         float x = (portsNum)*size.x/2 - size.x/2 - i*size.x;
         float y = GATE_SQUARE_SIZE/2 + 35;
         GatePort *gp = new GatePort(this, ofVec2f(x, y), GATEPORT_OUTPUT);
-        gp->connect(wires[i]);
         gps.push_back(gp);
     }
     outputs.push_back(gps);
