@@ -114,7 +114,7 @@ bool Gate::contains(ofVec2f p)
     return false;
 }
 
-void Gate::pickUp()
+bool Gate::pickUp()
 {
     picked = true;
 }

@@ -41,6 +41,13 @@ void GameScreen::setup()
         case 1:
             i1.push_back(HIGH);
             i1.push_back(LOW);
+            i2.push_back(LOW);
+            i2.push_back(HIGH);
+            exp.push_back(LOW);
+            exp.push_back(LOW);
+        case 2:
+            i1.push_back(HIGH);
+            i1.push_back(LOW);
             i1.push_back(HIGH);
             i2.push_back(LOW);
             i2.push_back(LOW);
@@ -49,9 +56,35 @@ void GameScreen::setup()
             exp.push_back(HIGH);
             exp.push_back(HIGH);
             break;
+        case 3:
+            i1.push_back(LOW);
+            i1.push_back(LOW);
+            i1.push_back(HIGH);
+            i2.push_back(LOW);
+            i2.push_back(HIGH);
+            i2.push_back(HIGH);
+            exp.push_back(HIGH);
+            exp.push_back(HIGH);
+            exp.push_back(HIGH);
+            break;
+        case 4:
+            i1.push_back(LOW);
+            i1.push_back(LOW);
+            i1.push_back(HIGH);
+            i1.push_back(HIGH);
+            i2.push_back(LOW);
+            i2.push_back(HIGH);
+            i2.push_back(HIGH);
+            i2.push_back(LOW);
+            exp.push_back(HIGH);
+            exp.push_back(LOW);
+            exp.push_back(HIGH);
+            exp.push_back(LOW);
+            break;
+            
     }
     
-    level = new Level(i1, i2, exp);
+    level = new Level(levelID, i1, i2, exp);
     level->setup();
 }
 

@@ -20,6 +20,10 @@ public:
     static ofColor getWireOn();
     static ofColor getWireOff();
     static ofColor getInventoryBackground();
+    static ofColor getShadowColor();
+    static ofColor getGateBorder();
+    static ofColor getGateText();
+
 };
 
 #endif /* defined(__Logic__ColorScheme__) */

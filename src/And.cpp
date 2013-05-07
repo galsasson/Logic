@@ -24,6 +24,8 @@ And::And(ofVec2f p, int pNum)
     me = AND;
     picked = false;
     
+    locked = false;
+    
     initPorts();
     initPads();
 }
@@ -33,7 +35,7 @@ void And::initPorts()
     // add input left ports
     for (int i=0; i<portsNum; i++)
     {
-        float x = -(portsNum+2)*halfSquareSize.x - 10;
+        float x = -(portsNum+2)*halfSquareSize.x - 15;
         float y = -(portsNum+1)*halfSquareSize.y + halfSquareSize.y + i*squareSize.y;
         GatePort *gp = new GatePort(this, ofVec2f(x, y), GATEPORT_INPUTLEFT);
         inputsLeft.push_back(gp);
@@ -347,14 +349,17 @@ bool And::contains(ofVec2f p)
     return false;
 }
 
-void And::pickUp()
+bool And::pickUp()
 {
-    picked = true;
+    if (locked)
+        return false;
     
+    picked = true;
     for (int i=0; i<3; i++)
     {
         pads[i].setVisible(true, 0);
     }
+    return true;
 }
 
 void And::putDown()
@@ -415,18 +420,23 @@ void And::draw()
     
     ofVec2f totalSize = ofVec2f((portsNum+2)*squareSize.x, (portsNum+1)*squareSize.y);
     ofVec2f halfSize = totalSize/2;
-    ofSetColor(0, 0, 0, 100);
-    ofFill();
-    ofRect(-halfSize+10, totalSize.x, totalSize.y);
-    ofSetColor(130);
-    ofRect(-halfSize, totalSize.x, totalSize.y-squareSize.y);
-    ofSetColor(80);
-    ofRect(-halfSize.x, -halfSquareSize.y + portsNum*halfSquareSize.y, totalSize.x, squareSize.y);
+//    ofSetColor(ColorScheme::getShadowColor());
+//    ofFill();
+//    ofRect(-halfSize+10, totalSize.x, totalSize.y);
+//    ofSetColor(130);
+//    ofRect(-halfSize, totalSize.x, totalSize.y-squareSize.y);
+//    ofSetColor(80);
+//    ofRect(-halfSize.x, -halfSquareSize.y + portsNum*halfSquareSize.y, totalSize.x, squareSize.y);
+
     ofNoFill();
-    ofSetLineWidth(1);
-    ofSetColor(130);
-    ofRectRounded(-halfSize, totalSize.x, totalSize.y, 5);
-    ofSetColor(200);
+    for (int i=0; i<3; i++)
+    {
+        ofSetLineWidth(5-i*2);
+        ofSetColor(ColorScheme::getGateBorder(), 155+i*50);
+        ofRectRounded(-halfSize, totalSize.x, totalSize.y, 5);
+    }
+    //    ofSetColor(200);
+    ofSetColor(ColorScheme::getGateBorder());
     ofRectRounded(-halfSize, totalSize.x, totalSize.y-squareSize.y, 5);
     
     /* draw colored squares inside the gate that respresent the ports status */
@@ -491,7 +501,7 @@ void And::draw()
     }
     
     // write text on the gate
-    ofSetColor(180);
+    ofSetColor(ColorScheme::getGateText());
     font.drawString("AND", -halfTextSize.x/2, 0);
 
     // draw the touch pads

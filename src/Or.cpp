@@ -22,6 +22,8 @@ Or::Or(ofVec2f p, int pNum)
     me = OR;
     picked = false;
     
+    locked = false;
+    
     initPorts();
     initPads();
 }
@@ -31,7 +33,7 @@ void Or::initPorts()
     // add input left ports
     for (int i=0; i<portsNum; i++)
     {
-        float x = -(portsNum+2)*size.x/2 - 10;
+        float x = -(portsNum+2)*size.x/2 - 15;
         float y = -(portsNum+1)*size.y/2 + size.y/2 + i*size.y;
         GatePort *gp = new GatePort(this, ofVec2f(x, y), GATEPORT_INPUTLEFT);
         inputsLeft.push_back(gp);
@@ -347,14 +349,18 @@ bool Or::contains(ofVec2f p)
     return false;
 }
 
-void Or::pickUp()
+bool Or::pickUp()
 {
-    picked = true;
+    if (locked)
+        return false;
     
+    picked = true;
     for (int i=0; i<3; i++)
     {
         pads[i].setVisible(true, 0);
     }
+    
+    return true;
 }
 
 void Or::putDown()
@@ -416,18 +422,21 @@ void Or::draw()
     
     ofVec2f totalSize = ofVec2f((portsNum+2)*size.x, (portsNum+1)*size.y);
     ofVec2f halfSize = totalSize/2;
-    ofSetColor(0, 0, 0, 100);
-    ofFill();
-    ofRect(-totalSize.x/2+10, -totalSize.y/2+10, totalSize.x, totalSize.y);
-    ofSetColor(130);
-    ofRect(-totalSize.x/2, -totalSize.y/2, totalSize.x, totalSize.y-size.y);
-    ofSetColor(80);
-    ofRect(-totalSize.x/2, -size.y/2 + portsNum*size.y/2, totalSize.x, size.y);
+//    ofSetColor(0, 0, 0, 100);
+//    ofFill();
+//    ofRect(-totalSize.x/2+10, -totalSize.y/2+10, totalSize.x, totalSize.y);
+//    ofSetColor(130);
+//    ofRect(-totalSize.x/2, -totalSize.y/2, totalSize.x, totalSize.y-size.y);
+//    ofSetColor(80);
+//    ofRect(-totalSize.x/2, -size.y/2 + portsNum*size.y/2, totalSize.x, size.y);
     ofNoFill();
-    ofSetLineWidth(1);
-    ofSetColor(130);
-    ofRectRounded(-totalSize/2, totalSize.x, totalSize.y, 5);
-    ofSetColor(200);
+    for (int i=0; i<3; i++)
+    {
+        ofSetLineWidth(5-i*2);
+        ofSetColor(ColorScheme::getGateBorder(), 155+i*50);
+        ofRectRounded(-totalSize/2, totalSize.x, totalSize.y, 5);
+    }
+    ofSetColor(ColorScheme::getGateBorder());
     ofRectRounded(-totalSize/2, totalSize.x, totalSize.y-size.y, 5);
 
     
@@ -478,7 +487,7 @@ void Or::draw()
     }
     
     // write test on the gate
-    ofSetColor(180);
+    ofSetColor(ColorScheme::getGateText());
     ofRectangle rect = font.getStringBoundingBox("OR", 0, 0);
     font.drawString("OR", -rect.width/2, 0);
     

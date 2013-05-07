@@ -42,6 +42,7 @@ public:
     // how many ports in this gate
     int portsNum;
     bool aboutToDelete;
+    bool locked;
     
     ~Gate();
     
@@ -66,7 +67,7 @@ public:
     virtual bool isPadConnected(GatePortType t) { return false; }
 
     virtual bool contains(ofVec2f p);
-    virtual void pickUp();
+    virtual bool pickUp();
     virtual void putDown();
     virtual void oscilateInputPads(bool on);
     virtual void oscilateOutputPads(bool on);

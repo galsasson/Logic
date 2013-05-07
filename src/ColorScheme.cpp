@@ -29,7 +29,8 @@ ofColor ColorScheme::getColor(int index)
 
 ofColor ColorScheme::getWireOn()
 {
-    return ofColor(230, 230, 255);
+    return ofColor(191, 255, 0);
+//    return ofColor(230, 230, 255);
 }
 
 ofColor ColorScheme::getWireOff()
@@ -39,5 +40,20 @@ ofColor ColorScheme::getWireOff()
 
 ofColor ColorScheme::getInventoryBackground()
 {
-    return ofColor(50);
+    return ofColor(76, 0, 124);    // deep purple :)
+}
+
+ofColor ColorScheme::getShadowColor()
+{
+    return ofColor(0, 0, 0, 100);
+}
+
+ofColor ColorScheme::getGateBorder()
+{
+    return ofColor(76, 0, 124);    // deep purple :)
+}
+
+ofColor ColorScheme::getGateText()
+{
+    return ofColor(153, 0, 255);    // glowy purple
 }

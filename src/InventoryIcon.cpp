@@ -73,8 +73,8 @@ void InventoryIcon::draw()
     ofFill();
     ofSetColor(40);
     ofRect(0, 0, size.x, size.y);
-    ofSetColor(255);
-    ofSetLineWidth(1);
+    ofSetColor(180);
+    ofSetLineWidth(2);
     
     // draw chip "legs"
     float x = size.x/6;
@@ -85,6 +85,7 @@ void InventoryIcon::draw()
         x += size.x/6;
     }
     
+    ofSetColor(255);
     ofRectangle rect = font.getStringBoundingBox(typeString, 0, 0);
     font.drawString(typeString, size.x/2 - rect.width/2, size.y/2+rect.height/2);
     

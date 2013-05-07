@@ -54,7 +54,7 @@ public:
     bool isPadConnected(GatePortType t);
 
     bool contains(ofVec2f p);
-    void pickUp();
+    bool pickUp();
     void putDown();
     void oscilateOutputPads(bool on);
     

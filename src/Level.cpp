@@ -19,8 +19,9 @@
 #include "InventoryIcon.h"
 #include "Button.h"
 
-Level::Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes)
+Level::Level(int num, vector<EState> input1, vector<EState> input2, vector<EState> expRes)
 {
+    levelNum = num;
     currentGate = NULL;
     conGate1 = NULL;
     conGate2 = NULL;
@@ -33,9 +34,9 @@ Level::Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes
     elecPingPong->setup(ofGetWidth(), ofGetHeight());   
 
     // build sources and result
-    s1 = new Source(ofVec2f(ofGetWidth()/2-100, 40), input1);
-    s2 = new Source(ofVec2f(ofGetWidth()/2+100, 40), input2);
-    result = new Result(ofVec2f(ofGetWidth()/2, ofGetHeight()-150), expRes);
+    s1 = new Source(ofVec2f(ofGetWidth()/2-100, 90), input1);
+    s2 = new Source(ofVec2f(ofGetWidth()/2+100, 90), input2);
+    result = new Result(ofVec2f(ofGetWidth()/2, ofGetHeight()-145), expRes);
 
     gates.push_back(s1);
     gates.push_back(s2);
@@ -55,11 +56,17 @@ Level::Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes
     
     emittingSignal = false;
     
+    ostringstream convert;
+    convert << levelNum;
+    levelString = "Level " + convert.str();
+    
     vector<EState> res = result->getResult();
     for (int i=0; i<res.size(); i++)
     {
         cout<<"result: "<<i<<" = "<<res[i]<<endl;
     }
+    
+
     
 //    loadResources();
 }
@@ -104,27 +111,42 @@ void Level::setup()
     for (int i=0; i<inventory->icons.size(); i++) {
         inventory->icons[i]->loadResources();
     }
+    
+    font.loadFont("Rationale-Regular.ttf", 25);
 }
 
 void Level::draw()
 {
-//    ofSetColor(200);
-//    background.draw(0, 0);
-    ofBackground(ColorScheme::getColor(4)*0.15);
+    ofBackground(0);
+    
+    // draw glowy frame
+    ofSetColor(ColorScheme::getGateBorder());
+    ofSetLineWidth(3);
+    ofNoFill();
+    ofRect(0, 0, ofGetWidth()-1, ofGetHeight()-1);
+    
+    // draw top bar
+    ofFill();
+    ofRect(0, 0, ofGetWidth(), 50);
+    ofSetColor(255);
+    ostringstream levelStr;
+    levelStr << "Level " << (levelNum+1);
+    font.drawString(levelStr.str(), 10, 40);
+    
     
     int i;
     if (drawElectricity) {
         elecPingPong->getFbo().draw(0, 0);
     }
     
-    for (i=0 ; i<wires.size(); i++)
-    {
-        wires[i]->draw();
-    }
-
     for (i=0 ; i<gates.size(); i++)
     {
         gates[i]->draw();
+    }
+    
+    for (i=0 ; i<wires.size(); i++)
+    {
+        wires[i]->draw();
     }
     
     inventory->draw();
@@ -165,14 +187,14 @@ void Level::update()
                 result->startShowingResult(result->haveCorrectResult());
             }
         }
-        else
-        {
-            // we are showing the result already
-            if (result->showResultCounter == 0)
-            {
-                resetSignal();
-            }
-        }
+//        else
+//        {
+//            // we are showing the result already
+//            if (result->showResultCounter == 0)
+//            {
+//                resetSignal();
+//            }
+//        }
     }
     
 }
@@ -315,24 +337,36 @@ void Level::touchDown(ofTouchEventArgs & touch)
     cout << "touchDown in Level " << touch.x << " " << touch.y << endl;
     if (touch.numTouches == 1)
     {
+        // if result is present, this touch will only reset the electricity
+        if (emittingSignal && result->resultSet)
+        {
+            resetSignal();
+            return;
+        }
+        
         // see if the user touch inventory icon
         InventoryIcon *icon = inventory->getIcon(ofVec2f(touch.x, touch.y));
         if (icon != NULL)
         {
+            Gate *gate;
+            
             if (icon->type == INVITEM_AND)
             {
-                currentGate = new And(icon->getWorldPosition(), portsNum);
+                gate = new And(icon->getWorldPosition(), portsNum);
             }
             else if (icon->type == INVITEM_OR)
             {
-                currentGate = new Or(icon->getWorldPosition(), portsNum);
+                gate = new Or(icon->getWorldPosition(), portsNum);
             }
             else if (icon->type == INVITEM_NOT)
             {
-                currentGate = new Not(icon->getWorldPosition(), portsNum);
+                gate = new Not(icon->getWorldPosition(), portsNum);
             }
-            gates.push_back(currentGate);
-            currentGate->pickUp();
+            gates.push_back(gate);
+            if (gate->pickUp())
+                currentGate = gate;
+            else
+                removeGate(gate);
             return;
         }
         
@@ -343,8 +377,8 @@ void Level::touchDown(ofTouchEventArgs & touch)
             if (gates[i]->contains(ofVec2f(touch.x, touch.y)))
             {
                 cout<<"click inside a gate"<<endl;
-                currentGate = gates[i];
-                currentGate->pickUp();
+                if (gates[i]->pickUp())
+                    currentGate = gates[i];
                 
                 releaseHoldPads();
                 
@@ -435,8 +469,7 @@ void Level::touchDown(ofTouchEventArgs & touch)
 
 void Level::touchMoved(ofTouchEventArgs & touch)
 {   cout << "touchMoved in Level " << touch.x << " " << touch.y << endl;
-    if (currentGate &&
-        currentGate != s1 && currentGate != s2 && currentGate != result)
+    if (currentGate)
     {
         currentGate->setPosition(ofVec2f(touch.x, touch.y));
         
@@ -454,8 +487,7 @@ void Level::touchUp(ofTouchEventArgs & touch)
     cout << "touchUp in Level " << touch.x << " " << touch.y << endl;
     if (currentGate)
     {
-        if (inventory->contains(ofVec2f(touch.x, touch.y)) &&
-            currentGate != s1 && currentGate != s2 && currentGate != result)
+        if (inventory->contains(ofVec2f(touch.x, touch.y)))
         {
             // delete this gate, its on the inventory
             removeGate(currentGate);

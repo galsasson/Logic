@@ -21,8 +21,10 @@ Result::Result(ofVec2f p, vector<EState> expRes)
     isCorrect = false;
     resultSet = false;
     showResultCounter = 0;
-    size = ofVec2f(25,25);
-    totalSize = ofVec2f(300, 100);
+    size = ofVec2f(30,30);
+    totalSize = ofVec2f(portsNum*size.x+50, size.y*2+20);
+    
+    locked = true;
     
     initPorts();
     initPads();
@@ -39,7 +41,7 @@ void Result::initPorts()
     for (int i=0; i<portsNum; i++)
     {
         float x = portsNum*size.x/2 - size.x/2 - i*size.x;
-        float y = -(portsNum+1)*size.y/2 - 25;
+        float y = -totalSize.y/2 - 15;
         GatePort *gp = new GatePort(this, ofVec2f(x, y), GATEPORT_INPUTTOP);
         inputsTop.push_back(gp);
     }
@@ -166,9 +168,10 @@ bool Result::contains(ofVec2f p)
     return false;
 }
 
-void Result::pickUp()
+bool Result::pickUp()
 {
-    pads[0].setVisible(true, 0);
+
+    return false;
 }
 
 void Result::putDown()
@@ -251,13 +254,17 @@ void Result::draw()
 
     ofPushMatrix();
     ofTranslate(pos);
-    
-    ofFill();
-    ofSetColor(100);
-    ofRectRounded(-totalSize/2, totalSize.x, totalSize.y, 5);
-    ofSetColor(160);
+
     ofNoFill();
-    ofRectRounded(-totalSize/2, totalSize.x, totalSize.y, 5);
+    for (int i=0; i<3; i++)
+    {
+        ofSetLineWidth(5-i*2);
+        ofSetColor(ColorScheme::getGateBorder(), 155+i*50);
+        ofRectRounded(-totalSize/2, totalSize.x, totalSize.y, 5);
+    }
+    
+    ofSetColor(ColorScheme::getGateBorder());
+    ofLine(-totalSize.x/2+10, 0, totalSize.x/2-10, 0);
     
     /* draw colored squares inside the gate that respresent the ports status */
     for (int i=0; i<portsNum; i++)
@@ -265,19 +272,19 @@ void Result::draw()
         inputsTop[i]->draw();
         
         ofFill();
-        // draw left input
+        // draw top input
         if (inputsTop[i]->getState() == HIGH)
             ofSetColor(ColorScheme::getColor(i));
         else
             ofSetColor(ColorScheme::getColor(i)*0.3);
         
-        ofRect(portsNum*size.x/2 - (i+1)*size.x+4, portsNum*size.y/2-50, size.x-8, size.y-8);
+        ofRect(portsNum*size.x/2 - (i+1)*size.x+4, -totalSize.y/2+10, size.x-8, size.y-8);
         
         if (expectedResult[i] == HIGH)
             ofSetColor(ColorScheme::getColor(i));
         else
             ofSetColor(ColorScheme::getColor(i)*0.3);
-        ofRect(portsNum*size.x/2 - (i+1)*size.x+4, portsNum*size.y/2-8, size.x-8, size.y-8);
+        ofRect(portsNum*size.x/2 - (i+1)*size.x+4, 10, size.x-8, size.y-8);
     }
     
     pads[0].draw();
@@ -294,7 +301,7 @@ void Result::draw()
             ofSetColor(255, 0, 0, abs(cos(showResultCounter))*255);
         }
         ofNoFill();
-        ofSetLineWidth(8);
+        ofSetLineWidth(4);
         ofRectRounded(-totalSize/2, totalSize.x, totalSize.y, 5);
     }
     

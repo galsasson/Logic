@@ -20,7 +20,7 @@ Inventory::Inventory(ofVec2f p)
 void Inventory::addIcon(InventoryIcon *icon)
 {
     // find the next available spot to put the icon in.
-    float x=10;
+    float x=20;
     for (int i=0; i<icons.size(); i++)
     {
         x += icons[i]->size.x+30;

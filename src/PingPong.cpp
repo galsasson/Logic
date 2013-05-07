@@ -80,7 +80,7 @@ void PingPong::renderToFbo(vector<Wire*>* w)
         glTranslatef(width/2, height/2, 0);
         
         ofSetColor(ColorScheme::getWireOn());
-        glScalef(1.0005, 1.00009, 1);
+        glScalef(1.0007, 1.0002, 1);
         pong->setAnchorPercent(0.5f, 0.5f);
         
         pong->draw(0, 0);

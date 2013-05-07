@@ -38,6 +38,8 @@ class Level
     Gate *conGate2;
     GatePortType conType2;
     
+    ofTrueTypeFont font;
+    
     Button *goButton;
     
     int portsNum;
@@ -48,9 +50,12 @@ class Level
     
     bool emittingSignal;
     
+    int levelNum;
+    string levelString;
+    
 public:
     
-    Level(vector<EState> input1, vector<EState> input2, vector<EState> expRes);
+    Level(int num, vector<EState> input1, vector<EState> input2, vector<EState> expRes);
     void setup();
     
     void emitSignal();

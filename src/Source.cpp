@@ -23,6 +23,8 @@ Source::Source(ofVec2f p, vector<EState> bits)
     
     size = ofVec2f(30, 70);
     
+    locked = true;
+    
     initPorts();
     initPads();
 }
@@ -181,16 +183,19 @@ bool Source::contains(ofVec2f p)
     return false;
 }
 
-void Source::pickUp()
+bool Source::pickUp()
 {
-//    picked = true;
+    if (locked)
+        return false;
     
     pads[0].setVisible(true, 0);
+    picked = true;
+    return true;
 }
 
 void Source::putDown()
 {
-//    picked = false;
+    picked = false;
     
     pads[0].setVisible(false, 40);
 }
@@ -219,23 +224,23 @@ void Source::draw()
         }
     }
 
-    ofFill();
-    /*
-    ofSetColor(0, 0, 0, 100);
-    ofRect(-size.x*portsNum/2+10, -size.y/2+10, size.x*portsNum, size.y);
-    */
-    ofSetColor(130);
-    ofRect(-size.x*portsNum/2, -size.y/2, size.x*portsNum, size.y);
-    ofSetColor(80);
-    ofRect(-size.x*portsNum/2, size.y/2-30, size.x*portsNum, 30);
+//    ofFill();
+//    ofSetColor(130);
+//    ofRect(-size.x*portsNum/2, -size.y/2, size.x*portsNum, size.y);
+//    ofSetColor(80);
+//    ofRect(-size.x*portsNum/2, size.y/2-30, size.x*portsNum, 30);
     ofNoFill();
-    ofSetLineWidth(1);
-    ofSetColor(130);
-    ofRectRounded(-size.x*portsNum/2, -size.y/2, size.x*portsNum, size.y, 5);
-    ofSetColor(200);
+    for (int i=0; i<3; i++)
+    {
+        ofSetLineWidth(5-i*2);
+        ofSetColor(ColorScheme::getGateBorder(), 155+i*50);
+        ofRectRounded(-size.x*portsNum/2, -size.y/2, size.x*portsNum, size.y, 5);
+    }
+    
+    ofSetColor(ColorScheme::getGateBorder());
     ofRectRounded(-size.x*portsNum/2, -size.y/2, size.x*portsNum, size.y-30, 5);
 
-    ofSetColor(180);
+    ofSetColor(ColorScheme::getGateText());
     ofFill();
     float totalWidth = size.x*portsNum;
     for (int i=0; i<portsNum; i++)
