@@ -45,6 +45,7 @@ void GameScreen::setup()
             i2.push_back(HIGH);
             exp.push_back(LOW);
             exp.push_back(LOW);
+            break;
         case 2:
             i1.push_back(HIGH);
             i1.push_back(LOW);

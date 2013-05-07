@@ -29,8 +29,8 @@ ofColor ColorScheme::getColor(int index)
 
 ofColor ColorScheme::getWireOn()
 {
-    return ofColor(191, 255, 0);
-//    return ofColor(230, 230, 255);
+//    return ofColor(191, 255, 0);
+    return ofColor(230, 230, 255);
 }
 
 ofColor ColorScheme::getWireOff()
